@@ -19,8 +19,8 @@ public class EntityPainting extends Entity {
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityPainting(World worldObj, int xPosition, int yPosition, int zPosition, int direction) {
-		this(worldObj);
+	public EntityPainting(World world, int xPosition, int yPosition, int zPosition, int direction) {
+		this(world);
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 		this.zPosition = zPosition;
@@ -179,20 +179,20 @@ public class EntityPainting extends Entity {
 		return true;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setByte("Dir", (byte)this.direction);
-		compoundTag.setString("Motive", this.art.title);
-		compoundTag.setInteger("TileX", this.xPosition);
-		compoundTag.setInteger("TileY", this.yPosition);
-		compoundTag.setInteger("TileZ", this.zPosition);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setByte("Dir", (byte)this.direction);
+		nbttagcompound.setString("Motive", this.art.title);
+		nbttagcompound.setInteger("TileX", this.xPosition);
+		nbttagcompound.setInteger("TileY", this.yPosition);
+		nbttagcompound.setInteger("TileZ", this.zPosition);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.direction = compoundTag.getByte("Dir");
-		this.xPosition = compoundTag.getInteger("TileX");
-		this.yPosition = compoundTag.getInteger("TileY");
-		this.zPosition = compoundTag.getInteger("TileZ");
-		String var2 = compoundTag.getString("Motive");
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.direction = nbttagcompound.getByte("Dir");
+		this.xPosition = nbttagcompound.getInteger("TileX");
+		this.yPosition = nbttagcompound.getInteger("TileY");
+		this.zPosition = nbttagcompound.getInteger("TileZ");
+		String var2 = nbttagcompound.getString("Motive");
 		EnumArt[] var3 = EnumArt.values();
 		int var4 = var3.length;
 

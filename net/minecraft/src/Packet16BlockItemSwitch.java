@@ -11,8 +11,8 @@ public class Packet16BlockItemSwitch extends Packet {
 	public Packet16BlockItemSwitch() {
 	}
 
-	public Packet16BlockItemSwitch(int entityId, int id) {
-		this.entityId = entityId;
+	public Packet16BlockItemSwitch(int entityID, int id) {
+		this.entityId = entityID;
 		this.id = id;
 	}
 

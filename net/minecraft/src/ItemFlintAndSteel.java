@@ -7,38 +7,38 @@ public class ItemFlintAndSteel extends Item {
 		this.maxDamage = 64;
 	}
 
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World worldObj, int x, int y, int z, int side) {
-		if(side == 0) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer entityPlayer, World world, int x, int y, int z, int var7) {
+		if(var7 == 0) {
 			--y;
 		}
 
-		if(side == 1) {
+		if(var7 == 1) {
 			++y;
 		}
 
-		if(side == 2) {
+		if(var7 == 2) {
 			--z;
 		}
 
-		if(side == 3) {
+		if(var7 == 3) {
 			++z;
 		}
 
-		if(side == 4) {
+		if(var7 == 4) {
 			--x;
 		}
 
-		if(side == 5) {
+		if(var7 == 5) {
 			++x;
 		}
 
-		int var8 = worldObj.getBlockId(x, y, z);
+		int var8 = world.getBlockId(x, y, z);
 		if(var8 == 0) {
-			worldObj.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "fire.ignite", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
-			worldObj.setBlockWithNotify(x, y, z, Block.fire.blockID);
+			world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "fire.ignite", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
+			world.setBlockWithNotify(x, y, z, Block.fire.blockID);
 		}
 
-		itemStack.damageItem(1);
+		stack.damageItem(1);
 		return true;
 	}
 }

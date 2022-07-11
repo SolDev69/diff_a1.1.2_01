@@ -6,21 +6,21 @@ public class ItemTool extends Item {
 	private int damageVsEntity;
 	protected int toolMaterial;
 
-	public ItemTool(int id, int attackDmg, int strength, Block[] blocks) {
-		super(id);
-		this.toolMaterial = strength;
-		this.blocksEffectiveAgainst = blocks;
+	public ItemTool(int itemID, int damage, int toolMaterial, Block[] effectiveBlocks) {
+		super(itemID);
+		this.toolMaterial = toolMaterial;
+		this.blocksEffectiveAgainst = effectiveBlocks;
 		this.maxStackSize = 1;
-		this.maxDamage = 32 << strength;
-		if(strength == 3) {
+		this.maxDamage = 32 << toolMaterial;
+		if(toolMaterial == 3) {
 			this.maxDamage *= 4;
 		}
 
-		this.efficiencyOnProperMaterial = (float)((strength + 1) * 2);
-		this.damageVsEntity = attackDmg + strength;
+		this.efficiencyOnProperMaterial = (float)((toolMaterial + 1) * 2);
+		this.damageVsEntity = damage + toolMaterial;
 	}
 
-	public float getStrVsBlock(ItemStack itemStack, Block block) {
+	public float getStrVsBlock(ItemStack stack, Block block) {
 		for(int var3 = 0; var3 < this.blocksEffectiveAgainst.length; ++var3) {
 			if(this.blocksEffectiveAgainst[var3] == block) {
 				return this.efficiencyOnProperMaterial;
@@ -30,19 +30,7 @@ public class ItemTool extends Item {
 		return 1.0F;
 	}
 
-	public void hitEntity(ItemStack itemStack, EntityLiving entityLiving) {
-		itemStack.damageItem(2);
-	}
-
-	public void onBlockDestroyed(ItemStack itemStack, int id, int x, int y, int z) {
-		itemStack.damageItem(1);
-	}
-
-	public int getDamageVsEntity(Entity entity) {
-		return this.damageVsEntity;
-	}
-
-	public boolean isFull3D() {
-		return true;
+	public void onBlockDestroyed(ItemStack stack, int x, int y, int z, int var5) {
+		stack.damageItem(1);
 	}
 }

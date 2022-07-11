@@ -18,49 +18,6 @@ public class EntitySnowball extends Entity {
 		this.setSize(0.25F, 0.25F);
 	}
 
-	public boolean isInRangeToRenderDist(double distance) {
-		double var3 = this.boundingBox.getAverageEdgeLength() * 4.0D;
-		var3 *= 64.0D;
-		return distance < var3 * var3;
-	}
-
-	public EntitySnowball(World var1, EntityLiving var2) {
-		super(var1);
-		this.thrower = var2;
-		this.setSize(0.25F, 0.25F);
-		this.setLocationAndAngles(var2.posX, var2.posY, var2.posZ, var2.rotationYaw, var2.rotationPitch);
-		this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-		this.posY -= (double)0.1F;
-		this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-		this.setPosition(this.posX, this.posY, this.posZ);
-		this.yOffset = 0.0F;
-		float var3 = 0.4F;
-		this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * var3);
-		this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * var3);
-		this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI) * var3);
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
-	}
-
-	public void setThrowableHeading(double var1, double var3, double var5, float var7, float var8) {
-		float var9 = MathHelper.sqrt_double(var1 * var1 + var3 * var3 + var5 * var5);
-		var1 /= (double)var9;
-		var3 /= (double)var9;
-		var5 /= (double)var9;
-		var1 += this.rand.nextGaussian() * (double)0.0075F * (double)var8;
-		var3 += this.rand.nextGaussian() * (double)0.0075F * (double)var8;
-		var5 += this.rand.nextGaussian() * (double)0.0075F * (double)var8;
-		var1 *= (double)var7;
-		var3 *= (double)var7;
-		var5 *= (double)var7;
-		this.motionX = var1;
-		this.motionY = var3;
-		this.motionZ = var5;
-		float var10 = MathHelper.sqrt_double(var1 * var1 + var5 * var5);
-		this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(var1, var5) * 180.0D / (double)(float)Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(var3, (double)var10) * 180.0D / (double)(float)Math.PI);
-		this.ticksInGround = 0;
-	}
-
 	public void onUpdate() {
 		super.onUpdate();
 		if(this.throwableShake > 0) {
@@ -175,22 +132,22 @@ public class EntitySnowball extends Entity {
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setShort("xTile", (short)this.xTile);
-		compoundTag.setShort("yTile", (short)this.yTile);
-		compoundTag.setShort("zTile", (short)this.zTile);
-		compoundTag.setByte("inTile", (byte)this.inTile);
-		compoundTag.setByte("shake", (byte)this.throwableShake);
-		compoundTag.setByte("inGround", (byte)(this.inGround ? 1 : 0));
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setShort("xTile", (short)this.xTile);
+		nbttagcompound.setShort("yTile", (short)this.yTile);
+		nbttagcompound.setShort("zTile", (short)this.zTile);
+		nbttagcompound.setByte("inTile", (byte)this.inTile);
+		nbttagcompound.setByte("shake", (byte)this.throwableShake);
+		nbttagcompound.setByte("inGround", (byte)(this.inGround ? 1 : 0));
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.xTile = compoundTag.getShort("xTile");
-		this.yTile = compoundTag.getShort("yTile");
-		this.zTile = compoundTag.getShort("zTile");
-		this.inTile = compoundTag.getByte("inTile") & 255;
-		this.throwableShake = compoundTag.getByte("shake") & 255;
-		this.inGround = compoundTag.getByte("inGround") == 1;
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.xTile = nbttagcompound.getShort("xTile");
+		this.yTile = nbttagcompound.getShort("yTile");
+		this.zTile = nbttagcompound.getShort("zTile");
+		this.inTile = nbttagcompound.getByte("inTile") & 255;
+		this.throwableShake = nbttagcompound.getByte("shake") & 255;
+		this.inGround = nbttagcompound.getByte("inGround") == 1;
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityPlayer) {
@@ -200,9 +157,5 @@ public class EntitySnowball extends Entity {
 			this.setEntityDead();
 		}
 
-	}
-
-	public float getShadowSize() {
-		return 0.0F;
 	}
 }

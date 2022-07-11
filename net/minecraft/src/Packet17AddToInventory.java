@@ -9,6 +9,19 @@ public class Packet17AddToInventory extends Packet {
 	public int count;
 	public int itemDamage;
 
+	public Packet17AddToInventory() {
+	}
+
+	public Packet17AddToInventory(ItemStack stack, int count) {
+		this.itemID = stack.itemID;
+		this.count = count;
+		this.itemDamage = stack.itemDmg;
+		if(count == 0) {
+			boolean count1 = true;
+		}
+
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.itemID = dataInputStream.readShort();
 		this.count = dataInputStream.readByte();

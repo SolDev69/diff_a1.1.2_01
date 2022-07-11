@@ -25,14 +25,14 @@ public class EntitySheep extends EntityAnimal {
 		return super.attackEntityFrom(entity, damage);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
-		compoundTag.setBoolean("Sheared", this.sheared);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
+		nbttagcompound.setBoolean("Sheared", this.sheared);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
-		this.sheared = compoundTag.getBoolean("Sheared");
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
+		this.sheared = nbttagcompound.getBoolean("Sheared");
 	}
 
 	protected String getLivingSound() {

@@ -45,8 +45,8 @@ public class EntityMinecart extends Entity implements IInventory {
 		return true;
 	}
 
-	public EntityMinecart(World worldObj, double x, double y, double z, int minecartType) {
-		this(worldObj);
+	public EntityMinecart(World world, double x, double y, double z, int minecartType) {
+		this(world);
 		this.setPosition(x, y + (double)this.yOffset, z);
 		this.motionX = 0.0D;
 		this.motionY = 0.0D;
@@ -396,41 +396,6 @@ public class EntityMinecart extends Entity implements IInventory {
 		}
 	}
 
-	public Vec3D getPosOffset(double x, double y, double z, double offset) {
-		int var9 = MathHelper.floor_double(x);
-		int var10 = MathHelper.floor_double(y);
-		int var11 = MathHelper.floor_double(z);
-		if(this.worldObj.getBlockId(var9, var10 - 1, var11) == Block.minecartTrack.blockID) {
-			--var10;
-		}
-
-		if(this.worldObj.getBlockId(var9, var10, var11) == Block.minecartTrack.blockID) {
-			int var12 = this.worldObj.getBlockMetadata(var9, var10, var11);
-			y = (double)var10;
-			if(var12 >= 2 && var12 <= 5) {
-				y = (double)(var10 + 1);
-			}
-
-			int[][] var13 = matrix[var12];
-			double var14 = (double)(var13[1][0] - var13[0][0]);
-			double var16 = (double)(var13[1][2] - var13[0][2]);
-			double var18 = Math.sqrt(var14 * var14 + var16 * var16);
-			var14 /= var18;
-			var16 /= var18;
-			x += var14 * offset;
-			z += var16 * offset;
-			if(var13[0][1] != 0 && MathHelper.floor_double(x) - var9 == var13[0][0] && MathHelper.floor_double(z) - var11 == var13[0][2]) {
-				y += (double)var13[0][1];
-			} else if(var13[1][1] != 0 && MathHelper.floor_double(x) - var9 == var13[1][0] && MathHelper.floor_double(z) - var11 == var13[1][2]) {
-				y += (double)var13[1][1];
-			}
-
-			return this.getPos(x, y, z);
-		} else {
-			return null;
-		}
-	}
-
 	public Vec3D getPos(double x, double y, double z) {
 		int var7 = MathHelper.floor_double(x);
 		int var8 = MathHelper.floor_double(y);
@@ -487,12 +452,12 @@ public class EntityMinecart extends Entity implements IInventory {
 		}
 	}
 
-	protected void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setInteger("Type", this.minecartType);
+	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setInteger("Type", this.minecartType);
 		if(this.minecartType == 2) {
-			compoundTag.setDouble("PushX", this.pushX);
-			compoundTag.setDouble("PushZ", this.pushZ);
-			compoundTag.setShort("Fuel", (short)this.fuel);
+			nbttagcompound.setDouble("PushX", this.pushX);
+			nbttagcompound.setDouble("PushZ", this.pushZ);
+			nbttagcompound.setShort("Fuel", (short)this.fuel);
 		} else if(this.minecartType == 1) {
 			NBTTagList var2 = new NBTTagList();
 
@@ -505,19 +470,19 @@ public class EntityMinecart extends Entity implements IInventory {
 				}
 			}
 
-			compoundTag.setTag("Items", var2);
+			nbttagcompound.setTag("Items", var2);
 		}
 
 	}
 
-	protected void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.minecartType = compoundTag.getInteger("Type");
+	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.minecartType = nbttagcompound.getInteger("Type");
 		if(this.minecartType == 2) {
-			this.pushX = compoundTag.getDouble("PushX");
-			this.pushZ = compoundTag.getDouble("PushZ");
-			this.fuel = compoundTag.getShort("Fuel");
+			this.pushX = nbttagcompound.getDouble("PushX");
+			this.pushZ = nbttagcompound.getDouble("PushZ");
+			this.fuel = nbttagcompound.getShort("Fuel");
 		} else if(this.minecartType == 1) {
-			NBTTagList var2 = compoundTag.getTagList("Items");
+			NBTTagList var2 = nbttagcompound.getTagList("Items");
 			this.cargoItems = new ItemStack[this.getSizeInventory()];
 
 			for(int var3 = 0; var3 < var2.tagCount(); ++var3) {
@@ -529,10 +494,6 @@ public class EntityMinecart extends Entity implements IInventory {
 			}
 		}
 
-	}
-
-	public float getShadowSize() {
-		return 0.0F;
 	}
 
 	public void applyEntityCollision(Entity entity) {
@@ -601,75 +562,5 @@ public class EntityMinecart extends Entity implements IInventory {
 
 	public ItemStack getStackInSlot(int slot) {
 		return this.cargoItems[slot];
-	}
-
-	public ItemStack decrStackSize(int slot, int stackSize) {
-		if(this.cargoItems[slot] != null) {
-			ItemStack var3;
-			if(this.cargoItems[slot].stackSize <= stackSize) {
-				var3 = this.cargoItems[slot];
-				this.cargoItems[slot] = null;
-				return var3;
-			} else {
-				var3 = this.cargoItems[slot].splitStack(stackSize);
-				if(this.cargoItems[slot].stackSize == 0) {
-					this.cargoItems[slot] = null;
-				}
-
-				return var3;
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public void setInventorySlotContents(int slot, ItemStack itemStack) {
-		this.cargoItems[slot] = itemStack;
-		if(itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
-			itemStack.stackSize = this.getInventoryStackLimit();
-		}
-
-	}
-
-	public String getInvName() {
-		return "Minecart";
-	}
-
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	public void onInventoryChanged() {
-	}
-
-	public boolean interact(EntityPlayer entityPlayer) {
-		if(this.minecartType == 0) {
-			entityPlayer.mountEntity(this);
-		} else if(this.minecartType == 1) {
-			entityPlayer.displayGUIChest(this);
-		} else if(this.minecartType == 2) {
-			ItemStack var2 = entityPlayer.inventory.getCurrentItem();
-			if(var2 != null && var2.itemID == Item.coal.shiftedIndex) {
-				if(--var2.stackSize == 0) {
-					entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, (ItemStack)null);
-				}
-
-				this.fuel += 1200;
-			}
-
-			this.pushX = this.posX - entityPlayer.posX;
-			this.pushZ = this.posZ - entityPlayer.posZ;
-		}
-
-		return true;
-	}
-
-	public void setPositionAndRotation(double x, double y, double z, float rotationYaw, float rotationPitch, int newPosRotationIncrements) {
-		this.minecartX = x;
-		this.minecartY = y;
-		this.minecartZ = z;
-		this.minecartYaw = (double)rotationYaw;
-		this.minecartPitch = (double)rotationPitch;
-		this.turnProgress = newPosRotationIncrements;
 	}
 }

@@ -23,30 +23,26 @@ public class BlockStep extends Block {
 		return this.blockType;
 	}
 
-	public void onNeighborBlockChange(World worldObj, int x, int y, int z, int id) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, int flag) {
 		if(this == Block.stairSingle) {
 		}
 	}
 
-	public void onBlockAdded(World worldObj, int x, int y, int z) {
+	public void onBlockAdded(World world, int x, int y, int z) {
 		if(this != Block.stairSingle) {
-			super.onBlockAdded(worldObj, x, y, z);
+			super.onBlockAdded(world, x, y, z);
 		}
 
-		int var5 = worldObj.getBlockId(x, y - 1, z);
+		int var5 = world.getBlockId(x, y - 1, z);
 		if(var5 == stairSingle.blockID) {
-			worldObj.setBlockWithNotify(x, y, z, 0);
-			worldObj.setBlockWithNotify(x, y - 1, z, Block.stairDouble.blockID);
+			world.setBlockWithNotify(x, y, z, 0);
+			world.setBlockWithNotify(x, y - 1, z, Block.stairDouble.blockID);
 		}
 
 	}
 
-	public int idDropped(int metadata, Random rand) {
+	public int idDropped(int count, Random random) {
 		return Block.stairSingle.blockID;
-	}
-
-	public boolean renderAsNormalBlock() {
-		return this.blockType;
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {

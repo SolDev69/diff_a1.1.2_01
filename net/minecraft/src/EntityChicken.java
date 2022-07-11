@@ -48,15 +48,15 @@ public class EntityChicken extends EntityAnimal {
 
 	}
 
-	protected void fall(float distance) {
+	protected void fall(float var1) {
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	protected String getLivingSound() {

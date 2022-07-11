@@ -11,14 +11,14 @@ public abstract class Packet {
 	private static Map packetClassToIdMap = new HashMap();
 	public boolean isChunkDataPacket = false;
 
-	static void addIdClassMapping(int id, Class packetClass) {
+	static void addIdClassMapping(int id, Class clazz) {
 		if(packetIdToClassMap.containsKey(Integer.valueOf(id))) {
 			throw new IllegalArgumentException("Duplicate packet id:" + id);
-		} else if(packetClassToIdMap.containsKey(packetClass)) {
-			throw new IllegalArgumentException("Duplicate packet class:" + packetClass);
+		} else if(packetClassToIdMap.containsKey(clazz)) {
+			throw new IllegalArgumentException("Duplicate packet class:" + clazz);
 		} else {
-			packetIdToClassMap.put(Integer.valueOf(id), packetClass);
-			packetClassToIdMap.put(packetClass, Integer.valueOf(id));
+			packetIdToClassMap.put(Integer.valueOf(id), clazz);
+			packetClassToIdMap.put(clazz, Integer.valueOf(id));
 		}
 	}
 

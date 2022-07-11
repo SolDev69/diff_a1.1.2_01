@@ -9,21 +9,21 @@ public class BlockSapling extends BlockFlower {
 		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 2.0F, 0.5F + var3);
 	}
 
-	public void updateTick(World worldObj, int x, int y, int z, Random rand) {
-		super.updateTick(worldObj, x, y, z, rand);
-		if(worldObj.getBlockLightValue(x, y + 1, z) >= 9 && rand.nextInt(5) == 0) {
-			int var6 = worldObj.getBlockMetadata(x, y, z);
+	public void updateTick(World world, int x, int y, int z, Random random) {
+		super.updateTick(world, x, y, z, random);
+		if(world.getBlockLightValue(x, y + 1, z) >= 9 && random.nextInt(5) == 0) {
+			int var6 = world.getBlockMetadata(x, y, z);
 			if(var6 < 15) {
-				worldObj.setBlockMetadataWithNotify(x, y, z, var6 + 1);
+				world.setBlockMetadataWithNotify(x, y, z, var6 + 1);
 			} else {
-				worldObj.setBlock(x, y, z, 0);
+				world.setBlock(x, y, z, 0);
 				Object var7 = new WorldGenTrees();
-				if(rand.nextInt(10) == 0) {
+				if(random.nextInt(10) == 0) {
 					var7 = new WorldGenBigTree();
 				}
 
-				if(!((WorldGenerator)var7).generate(worldObj, rand, x, y, z)) {
-					worldObj.setBlock(x, y, z, this.blockID);
+				if(!((WorldGenerator)var7).generate(world, random, x, y, z)) {
+					world.setBlock(x, y, z, this.blockID);
 				}
 			}
 		}

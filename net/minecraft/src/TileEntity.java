@@ -11,41 +11,41 @@ public class TileEntity {
 	public int yCoord;
 	public int zCoord;
 
-	private static void addMapping(Class tileClass, String name) {
-		if(classToNameMap.containsKey(name)) {
-			throw new IllegalArgumentException("Duplicate id: " + name);
+	private static void addMapping(Class clazz, String tileEntityName) {
+		if(classToNameMap.containsKey(tileEntityName)) {
+			throw new IllegalArgumentException("Duplicate id: " + tileEntityName);
 		} else {
-			nameToClassMap.put(name, tileClass);
-			classToNameMap.put(tileClass, name);
+			nameToClassMap.put(tileEntityName, clazz);
+			classToNameMap.put(clazz, tileEntityName);
 		}
 	}
 
-	public void readFromNBT(NBTTagCompound compoundTag) {
-		this.xCoord = compoundTag.getInteger("x");
-		this.yCoord = compoundTag.getInteger("y");
-		this.zCoord = compoundTag.getInteger("z");
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
+		this.xCoord = nbttagcompound.getInteger("x");
+		this.yCoord = nbttagcompound.getInteger("y");
+		this.zCoord = nbttagcompound.getInteger("z");
 	}
 
-	public void writeToNBT(NBTTagCompound compoundTag) {
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		String var2 = (String)classToNameMap.get(this.getClass());
 		if(var2 == null) {
 			throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
 		} else {
-			compoundTag.setString("id", var2);
-			compoundTag.setInteger("x", this.xCoord);
-			compoundTag.setInteger("y", this.yCoord);
-			compoundTag.setInteger("z", this.zCoord);
+			nbttagcompound.setString("id", var2);
+			nbttagcompound.setInteger("x", this.xCoord);
+			nbttagcompound.setInteger("y", this.yCoord);
+			nbttagcompound.setInteger("z", this.zCoord);
 		}
 	}
 
 	public void updateEntity() {
 	}
 
-	public static TileEntity createAndLoadEntity(NBTTagCompound compoundTag) {
+	public static TileEntity createAndLoadEntity(NBTTagCompound nbttagcompound) {
 		TileEntity var1 = null;
 
 		try {
-			Class var2 = (Class)nameToClassMap.get(compoundTag.getString("id"));
+			Class var2 = (Class)nameToClassMap.get(nbttagcompound.getString("id"));
 			if(var2 != null) {
 				var1 = (TileEntity)var2.newInstance();
 			}
@@ -54,31 +54,16 @@ public class TileEntity {
 		}
 
 		if(var1 != null) {
-			var1.readFromNBT(compoundTag);
+			var1.readFromNBT(nbttagcompound);
 		} else {
-			System.out.println("Skipping TileEntity with id " + compoundTag.getString("id"));
+			System.out.println("Skipping TileEntity with id " + nbttagcompound.getString("id"));
 		}
 
 		return var1;
 	}
 
-	public int getBlockMetadata() {
-		return this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-	}
-
 	public void onInventoryChanged() {
 		this.worldObj.updateTileEntityChunkAndDoNothing(this.xCoord, this.yCoord, this.zCoord, this);
-	}
-
-	public double getDistanceFrom(double x, double y, double z) {
-		double var7 = (double)this.xCoord + 0.5D - x;
-		double var9 = (double)this.yCoord + 0.5D - y;
-		double var11 = (double)this.zCoord + 0.5D - z;
-		return var7 * var7 + var9 * var9 + var11 * var11;
-	}
-
-	public Block getBlockType() {
-		return Block.blocksList[this.worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord)];
 	}
 
 	static {

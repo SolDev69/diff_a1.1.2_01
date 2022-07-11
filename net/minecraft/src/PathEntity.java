@@ -5,9 +5,9 @@ public class PathEntity {
 	public final int pathLength;
 	private int pathIndex;
 
-	public PathEntity(PathPoint[] pathPoints) {
-		this.points = pathPoints;
-		this.pathLength = pathPoints.length;
+	public PathEntity(PathPoint[] points) {
+		this.points = points;
+		this.pathLength = points.length;
 	}
 
 	public void incrementPathIndex() {

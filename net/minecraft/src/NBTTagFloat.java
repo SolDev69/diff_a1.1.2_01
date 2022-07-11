@@ -10,8 +10,8 @@ public class NBTTagFloat extends NBTBase {
 	public NBTTagFloat() {
 	}
 
-	public NBTTagFloat(float value) {
-		this.floatValue = value;
+	public NBTTagFloat(float floatValue) {
+		this.floatValue = floatValue;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

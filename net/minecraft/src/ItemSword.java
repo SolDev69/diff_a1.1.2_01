@@ -3,34 +3,22 @@ package net.minecraft.src;
 public class ItemSword extends Item {
 	private int weaponDamage;
 
-	public ItemSword(int id, int strength) {
-		super(id);
+	public ItemSword(int itemID, int maxDamage) {
+		super(itemID);
 		this.maxStackSize = 1;
-		this.maxDamage = 32 << strength;
-		if(strength == 3) {
+		this.maxDamage = 32 << maxDamage;
+		if(maxDamage == 3) {
 			this.maxDamage *= 4;
 		}
 
-		this.weaponDamage = 4 + strength * 2;
+		this.weaponDamage = 4 + maxDamage * 2;
 	}
 
-	public float getStrVsBlock(ItemStack itemStack, Block block) {
+	public float getStrVsBlock(ItemStack stack, Block block) {
 		return 1.5F;
 	}
 
-	public void hitEntity(ItemStack itemStack, EntityLiving entityLiving) {
-		itemStack.damageItem(1);
-	}
-
-	public void onBlockDestroyed(ItemStack itemStack, int id, int x, int y, int z) {
-		itemStack.damageItem(2);
-	}
-
-	public int getDamageVsEntity(Entity entity) {
-		return this.weaponDamage;
-	}
-
-	public boolean isFull3D() {
-		return true;
+	public void onBlockDestroyed(ItemStack stack, int x, int y, int z, int var5) {
+		stack.damageItem(2);
 	}
 }

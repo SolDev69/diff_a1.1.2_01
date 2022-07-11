@@ -10,11 +10,11 @@ public class Packet13PlayerLookMove extends Packet10Flying {
 		this.moving = true;
 	}
 
-	public Packet13PlayerLookMove(double x, double minY, double y, double z, float yaw, float pitch, boolean onGround) {
-		this.xPosition = x;
-		this.yPosition = minY;
-		this.stance = y;
-		this.zPosition = z;
+	public Packet13PlayerLookMove(double xPosition, double yPosition, double stance, double zPosition, float yaw, float pitch, boolean onGround) {
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.stance = stance;
+		this.zPosition = zPosition;
 		this.yaw = yaw;
 		this.pitch = pitch;
 		this.onGround = onGround;

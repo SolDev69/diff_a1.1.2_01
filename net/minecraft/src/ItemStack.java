@@ -10,16 +10,16 @@ public final class ItemStack {
 		this((Block)block, 1);
 	}
 
-	public ItemStack(Block block, int stackSize) {
-		this(block.blockID, stackSize);
+	public ItemStack(Block block, int count) {
+		this(block.blockID, count);
 	}
 
 	public ItemStack(Item item) {
 		this((Item)item, 1);
 	}
 
-	public ItemStack(Item item, int stackSize) {
-		this(item.shiftedIndex, stackSize);
+	public ItemStack(Item item, int count) {
+		this(item.shiftedIndex, count);
 	}
 
 	public ItemStack(int itemID) {
@@ -39,47 +39,34 @@ public final class ItemStack {
 		this.itemDmg = itemDmg;
 	}
 
-	public ItemStack(NBTTagCompound nbtCompound) {
+	public ItemStack(NBTTagCompound nbttagcompound) {
 		this.stackSize = 0;
-		this.readFromNBT(nbtCompound);
-	}
-
-	public ItemStack splitStack(int stackSize) {
-		this.stackSize -= stackSize;
-		return new ItemStack(this.itemID, stackSize, this.itemDmg);
+		this.readFromNBT(nbttagcompound);
 	}
 
 	public Item getItem() {
 		return Item.itemsList[this.itemID];
 	}
 
-	public int getIconIndex() {
-		return this.getItem().getIconIndex(this);
-	}
-
-	public boolean useItem(EntityPlayer entityPlayer, World worldObj, int x, int y, int z, int side) {
-		return this.getItem().onItemUse(this, entityPlayer, worldObj, x, y, z, side);
+	public boolean useItem(EntityPlayer entityPlayer, World world, int x, int y, int z, int var6) {
+		return this.getItem().onItemUse(this, entityPlayer, world, x, y, z, var6);
 	}
 
 	public float getStrVsBlock(Block block) {
 		return this.getItem().getStrVsBlock(this, block);
 	}
 
-	public ItemStack useItemRightClick(World worldObj, EntityPlayer entityPlayer) {
-		return this.getItem().onItemRightClick(this, worldObj, entityPlayer);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setShort("id", (short)this.itemID);
+		nbttagcompound.setByte("Count", (byte)this.stackSize);
+		nbttagcompound.setShort("Damage", (short)this.itemDmg);
+		return nbttagcompound;
 	}
 
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtCompound) {
-		nbtCompound.setShort("id", (short)this.itemID);
-		nbtCompound.setByte("Count", (byte)this.stackSize);
-		nbtCompound.setShort("Damage", (short)this.itemDmg);
-		return nbtCompound;
-	}
-
-	public void readFromNBT(NBTTagCompound nbtCompound) {
-		this.itemID = nbtCompound.getShort("id");
-		this.stackSize = nbtCompound.getByte("Count");
-		this.itemDmg = nbtCompound.getShort("Damage");
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
+		this.itemID = nbttagcompound.getShort("id");
+		this.stackSize = nbttagcompound.getByte("Count");
+		this.itemDmg = nbttagcompound.getShort("Damage");
 	}
 
 	public int getMaxStackSize() {
@@ -103,16 +90,8 @@ public final class ItemStack {
 
 	}
 
-	public void hitEntity(EntityLiving entityLiving) {
-		Item.itemsList[this.itemID].hitEntity(this, entityLiving);
-	}
-
-	public void onDestroyBlock(int id, int x, int y, int z) {
-		Item.itemsList[this.itemID].onBlockDestroyed(this, id, x, y, z);
-	}
-
-	public int getDamageVsEntity(Entity entity) {
-		return Item.itemsList[this.itemID].getDamageVsEntity(entity);
+	public void onDestroyBlock(int x, int y, int z, int var4) {
+		Item.itemsList[this.itemID].onBlockDestroyed(this, x, y, z, var4);
 	}
 
 	public boolean canHarvestBlock(Block block) {
@@ -120,10 +99,6 @@ public final class ItemStack {
 	}
 
 	public void onItemDestroyedByUse(EntityPlayer entityPlayer) {
-	}
-
-	public void useItemOnEntity(EntityLiving entityLiving) {
-		Item.itemsList[this.itemID].saddleEntity(this, entityLiving);
 	}
 
 	public ItemStack copy() {

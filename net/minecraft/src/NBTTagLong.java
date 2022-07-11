@@ -10,8 +10,8 @@ public class NBTTagLong extends NBTBase {
 	public NBTTagLong() {
 	}
 
-	public NBTTagLong(long value) {
-		this.longValue = value;
+	public NBTTagLong(long longValue) {
+		this.longValue = longValue;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

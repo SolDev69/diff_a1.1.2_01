@@ -32,10 +32,10 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
 
 	}
 
-	public double generateNoise(double var1, double var3, double var5) {
-		double var7 = var1 + this.xCoord;
-		double var9 = var3 + this.yCoord;
-		double var11 = var5 + this.zCoord;
+	public double generateNoise(double x, double y, double z) {
+		double var7 = x + this.xCoord;
+		double var9 = y + this.yCoord;
+		double var11 = z + this.zCoord;
 		int var13 = (int)var7;
 		int var14 = (int)var9;
 		int var15 = (int)var11;
@@ -69,8 +69,8 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
 		return this.lerp(var23, this.lerp(var21, this.lerp(var19, this.grad(this.permutations[var26], var7, var9, var11), this.grad(this.permutations[var29], var7 - 1.0D, var9, var11)), this.lerp(var19, this.grad(this.permutations[var27], var7, var9 - 1.0D, var11), this.grad(this.permutations[var30], var7 - 1.0D, var9 - 1.0D, var11))), this.lerp(var21, this.lerp(var19, this.grad(this.permutations[var26 + 1], var7, var9, var11 - 1.0D), this.grad(this.permutations[var29 + 1], var7 - 1.0D, var9, var11 - 1.0D)), this.lerp(var19, this.grad(this.permutations[var27 + 1], var7, var9 - 1.0D, var11 - 1.0D), this.grad(this.permutations[var30 + 1], var7 - 1.0D, var9 - 1.0D, var11 - 1.0D))));
 	}
 
-	public double lerp(double var1, double var3, double var5) {
-		return var3 + var1 * (var5 - var3);
+	public double lerp(double x, double y, double z) {
+		return y + x * (z - y);
 	}
 
 	public double grad(int var1, double var2, double var4, double var6) {
@@ -80,11 +80,11 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
 		return ((var8 & 1) == 0 ? var9 : -var9) + ((var8 & 2) == 0 ? var11 : -var11);
 	}
 
-	public double generateNoise(double var1, double var3) {
-		return this.generateNoise(var1, var3, 0.0D);
+	public double generateNoise(double x, double z) {
+		return this.generateNoise(x, z, 0.0D);
 	}
 
-	public void populateNoiseArray(double[] var1, double var2, double var4, double var6, int var8, int var9, int var10, double var11, double var13, double var15, double var17) {
+	public void populateNoiseArray(double[] data, double var2, double var4, double var6, int var8, int var9, int var10, double var11, double var13, double var15, double var17) {
 		int var19 = 0;
 		double var20 = 1.0D / var17;
 		int var22 = -1;
@@ -149,7 +149,7 @@ public class NoiseGeneratorPerlin extends NoiseGenerator {
 					double var60 = this.lerp(var56, var33, var35);
 					double var62 = this.lerp(var49, var58, var60);
 					int var10001 = var19++;
-					var1[var10001] += var62 * var20;
+					data[var10001] += var62 * var20;
 				}
 			}
 		}

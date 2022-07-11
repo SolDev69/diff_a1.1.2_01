@@ -51,17 +51,9 @@ public class Vec3D {
 		return this;
 	}
 
-	public Vec3D subtract(Vec3D vector) {
-		return createVector(vector.xCoord - this.xCoord, vector.yCoord - this.yCoord, vector.zCoord - this.zCoord);
-	}
-
 	public Vec3D normalize() {
 		double var1 = (double)MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
 		return var1 < 1.0E-4D ? createVector(0.0D, 0.0D, 0.0D) : createVector(this.xCoord / var1, this.yCoord / var1, this.zCoord / var1);
-	}
-
-	public Vec3D crossProduct(Vec3D vector) {
-		return createVector(this.yCoord * vector.zCoord - this.zCoord * vector.yCoord, this.zCoord * vector.xCoord - this.xCoord * vector.zCoord, this.xCoord * vector.yCoord - this.yCoord * vector.xCoord);
 	}
 
 	public Vec3D addVector(double x, double y, double z) {
@@ -93,65 +85,43 @@ public class Vec3D {
 		return (double)MathHelper.sqrt_double(this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord);
 	}
 
-	public Vec3D getIntermediateWithXValue(Vec3D vector, double xValue) {
+	public Vec3D getIntermediateWithXValue(Vec3D vector, double var2) {
 		double var4 = vector.xCoord - this.xCoord;
 		double var6 = vector.yCoord - this.yCoord;
 		double var8 = vector.zCoord - this.zCoord;
 		if(var4 * var4 < 1.0000000116860974E-7D) {
 			return null;
 		} else {
-			double var10 = (xValue - this.xCoord) / var4;
+			double var10 = (var2 - this.xCoord) / var4;
 			return var10 >= 0.0D && var10 <= 1.0D ? createVector(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
 		}
 	}
 
-	public Vec3D getIntermediateWithYValue(Vec3D vector, double yValue) {
+	public Vec3D getIntermediateWithYValue(Vec3D vector, double var2) {
 		double var4 = vector.xCoord - this.xCoord;
 		double var6 = vector.yCoord - this.yCoord;
 		double var8 = vector.zCoord - this.zCoord;
 		if(var6 * var6 < 1.0000000116860974E-7D) {
 			return null;
 		} else {
-			double var10 = (yValue - this.yCoord) / var6;
+			double var10 = (var2 - this.yCoord) / var6;
 			return var10 >= 0.0D && var10 <= 1.0D ? createVector(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
 		}
 	}
 
-	public Vec3D getIntermediateWithZValue(Vec3D vector, double zValue) {
+	public Vec3D getIntermediateWithZValue(Vec3D vector, double var2) {
 		double var4 = vector.xCoord - this.xCoord;
 		double var6 = vector.yCoord - this.yCoord;
 		double var8 = vector.zCoord - this.zCoord;
 		if(var8 * var8 < 1.0000000116860974E-7D) {
 			return null;
 		} else {
-			double var10 = (zValue - this.zCoord) / var8;
+			double var10 = (var2 - this.zCoord) / var8;
 			return var10 >= 0.0D && var10 <= 1.0D ? createVector(this.xCoord + var4 * var10, this.yCoord + var6 * var10, this.zCoord + var8 * var10) : null;
 		}
 	}
 
 	public String toString() {
 		return "(" + this.xCoord + ", " + this.yCoord + ", " + this.zCoord + ")";
-	}
-
-	public void rotateAroundX(float x) {
-		float var2 = MathHelper.cos(x);
-		float var3 = MathHelper.sin(x);
-		double var4 = this.xCoord;
-		double var6 = this.yCoord * (double)var2 + this.zCoord * (double)var3;
-		double var8 = this.zCoord * (double)var2 - this.yCoord * (double)var3;
-		this.xCoord = var4;
-		this.yCoord = var6;
-		this.zCoord = var8;
-	}
-
-	public void rotateAroundY(float y) {
-		float var2 = MathHelper.cos(y);
-		float var3 = MathHelper.sin(y);
-		double var4 = this.xCoord * (double)var2 + this.zCoord * (double)var3;
-		double var6 = this.yCoord;
-		double var8 = this.zCoord * (double)var2 - this.xCoord * (double)var3;
-		this.xCoord = var4;
-		this.yCoord = var6;
-		this.zCoord = var8;
 	}
 }

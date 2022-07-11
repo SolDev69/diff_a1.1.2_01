@@ -16,6 +16,27 @@ public class Packet52MultiBlockChange extends Packet {
 		this.isChunkDataPacket = true;
 	}
 
+	public Packet52MultiBlockChange(int xPosition, int zPosition, short[] data, int size, World world) {
+		this.isChunkDataPacket = true;
+		this.xPosition = xPosition;
+		this.zPosition = zPosition;
+		this.size = size;
+		this.coordinateArray = new short[size];
+		this.typeArray = new byte[size];
+		this.metadataArray = new byte[size];
+		Chunk var6 = world.getChunkFromChunkCoords(xPosition, zPosition);
+
+		for(int var7 = 0; var7 < size; ++var7) {
+			int var8 = data[var7] >> 12 & 15;
+			int var9 = data[var7] >> 8 & 15;
+			int var10 = data[var7] & 255;
+			this.coordinateArray[var7] = data[var7];
+			this.typeArray[var7] = (byte)var6.getBlockID(var8, var10, var9);
+			this.metadataArray[var7] = (byte)var6.getBlockMetadata(var8, var10, var9);
+		}
+
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.xPosition = dataInputStream.readInt();
 		this.zPosition = dataInputStream.readInt();

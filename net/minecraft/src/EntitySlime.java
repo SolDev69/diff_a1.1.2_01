@@ -15,21 +15,21 @@ public class EntitySlime extends EntityLiving implements IMobs {
 		this.setSlimeSize(this.size);
 	}
 
-	public void setSlimeSize(int var1) {
-		this.size = var1;
-		this.setSize(0.6F * (float)var1, 0.6F * (float)var1);
-		this.health = var1 * var1;
+	public void setSlimeSize(int size) {
+		this.size = size;
+		this.setSize(0.6F * (float)size, 0.6F * (float)size);
+		this.health = size * size;
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
-		compoundTag.setInteger("Size", this.size - 1);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
+		nbttagcompound.setInteger("Size", this.size - 1);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
-		this.size = compoundTag.getInteger("Size") + 1;
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
+		this.size = nbttagcompound.getInteger("Size") + 1;
 	}
 
 	public void onUpdate() {

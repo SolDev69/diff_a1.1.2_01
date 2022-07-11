@@ -9,11 +9,11 @@ final class ChunkCoordinates {
 		this.posZ = posZ;
 	}
 
-	public boolean equals(Object chunkCoordinates) {
-		if(!(chunkCoordinates instanceof ChunkCoordinates)) {
+	public boolean equals(Object object) {
+		if(!(object instanceof ChunkCoordinates)) {
 			return false;
 		} else {
-			ChunkCoordinates var2 = (ChunkCoordinates)chunkCoordinates;
+			ChunkCoordinates var2 = (ChunkCoordinates)object;
 			return this.posX == var2.posX && this.posZ == var2.posZ;
 		}
 	}

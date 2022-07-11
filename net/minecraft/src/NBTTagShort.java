@@ -10,8 +10,8 @@ public class NBTTagShort extends NBTBase {
 	public NBTTagShort() {
 	}
 
-	public NBTTagShort(short value) {
-		this.shortValue = value;
+	public NBTTagShort(short shortValue) {
+		this.shortValue = shortValue;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

@@ -104,13 +104,13 @@ public class Item {
 	protected int iconIndex;
 	protected boolean bFull3D = false;
 
-	protected Item(int id) {
-		this.shiftedIndex = 256 + id;
-		if(itemsList[256 + id] != null) {
-			System.out.println("CONFLICT @ " + id);
+	protected Item(int itemID) {
+		this.shiftedIndex = 256 + itemID;
+		if(itemsList[256 + itemID] != null) {
+			System.out.println("CONFLICT @ " + itemID);
 		}
 
-		itemsList[256 + id] = this;
+		itemsList[256 + itemID] = this;
 	}
 
 	public Item setIconIndex(int iconIndex) {
@@ -118,20 +118,12 @@ public class Item {
 		return this;
 	}
 
-	public int getIconIndex(ItemStack itemStack) {
-		return this.iconIndex;
-	}
-
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World worldObj, int x, int y, int z, int side) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer entityPlayer, World world, int x, int y, int z, int var7) {
 		return false;
 	}
 
-	public float getStrVsBlock(ItemStack itemStack, Block block) {
+	public float getStrVsBlock(ItemStack stack, Block block) {
 		return 1.0F;
-	}
-
-	public ItemStack onItemRightClick(ItemStack itemStack, World worldObj, EntityPlayer entityPlayer) {
-		return itemStack;
 	}
 
 	public int getItemStackLimit() {
@@ -142,29 +134,15 @@ public class Item {
 		return this.maxDamage;
 	}
 
-	public void hitEntity(ItemStack itemStack, EntityLiving entityLiving) {
-	}
-
-	public void onBlockDestroyed(ItemStack itemStack, int id, int x, int y, int z) {
-	}
-
-	public int getDamageVsEntity(Entity entity) {
-		return 1;
+	public void onBlockDestroyed(ItemStack stack, int x, int y, int z, int var5) {
 	}
 
 	public boolean canHarvestBlock(Block block) {
 		return false;
 	}
 
-	public void saddleEntity(ItemStack itemStack, EntityLiving entityLiving) {
-	}
-
 	public Item setFull3D() {
 		this.bFull3D = true;
 		return this;
-	}
-
-	public boolean isFull3D() {
-		return this.bFull3D;
 	}
 }

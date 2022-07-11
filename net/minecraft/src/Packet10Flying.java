@@ -15,13 +15,6 @@ public class Packet10Flying extends Packet {
 	public boolean moving;
 	public boolean rotating;
 
-	public Packet10Flying() {
-	}
-
-	public Packet10Flying(boolean onGround) {
-		this.onGround = onGround;
-	}
-
 	public void processPacket(NetHandler netHandler) {
 		netHandler.handleFlying(this);
 	}

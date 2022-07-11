@@ -30,14 +30,6 @@ public class EntityPlayer extends EntityLiving {
 		this.cameraYaw = 0.0F;
 	}
 
-	public void preparePlayerToSpawn() {
-		this.yOffset = 1.62F;
-		this.setSize(0.6F, 1.8F);
-		super.preparePlayerToSpawn();
-		this.health = 20;
-		this.deathTime = 0;
-	}
-
 	protected void updateEntityActionState() {
 		if(this.isSwinging) {
 			++this.swingProgressInt;
@@ -91,10 +83,6 @@ public class EntityPlayer extends EntityLiving {
 		entity.onCollideWithPlayer(this);
 	}
 
-	public int getScore() {
-		return this.score;
-	}
-
 	public void onDeath(Entity entity) {
 		this.setSize(0.2F, 0.2F);
 		this.setPosition(this.posX, this.posY, this.posZ);
@@ -118,17 +106,17 @@ public class EntityPlayer extends EntityLiving {
 		this.score += score;
 	}
 
-	public void dropPlayerItem(ItemStack itemStack) {
-		this.dropPlayerItemWithRandomChoice(itemStack, false);
+	public void dropPlayerItem(ItemStack stack) {
+		this.dropPlayerItemWithRandomChoice(stack, false);
 	}
 
-	public void dropPlayerItemWithRandomChoice(ItemStack itemStack, boolean isRandom) {
-		if(itemStack != null) {
-			EntityItem var3 = new EntityItem(this.worldObj, this.posX, this.posY - (double)0.3F + (double)this.getEyeHeight(), this.posZ, itemStack);
+	public void dropPlayerItemWithRandomChoice(ItemStack stack, boolean var2) {
+		if(stack != null) {
+			EntityItem var3 = new EntityItem(this.worldObj, this.posX, this.posY - (double)0.3F + (double)this.getEyeHeight(), this.posZ, stack);
 			var3.delayBeforeCanPickup = 40;
 			float var4 = 0.1F;
 			float var5;
-			if(isRandom) {
+			if(var2) {
 				var5 = this.rand.nextFloat() * 0.5F;
 				float var6 = this.rand.nextFloat() * (float)Math.PI * 2.0F;
 				var3.motionX = (double)(-MathHelper.sin(var6) * var5);
@@ -172,15 +160,15 @@ public class EntityPlayer extends EntityLiving {
 		return this.inventory.canHarvestBlock(block);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
-		NBTTagList var2 = compoundTag.getTagList("Inventory");
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
+		NBTTagList var2 = nbttagcompound.getTagList("Inventory");
 		this.inventory.readFromNBT(var2);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
-		compoundTag.setTag("Inventory", this.inventory.writeToNBT(new NBTTagList()));
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
+		nbttagcompound.setTag("Inventory", this.inventory.writeToNBT(new NBTTagList()));
 	}
 
 	public void displayGUIChest(IInventory inventory) {
@@ -226,13 +214,10 @@ public class EntityPlayer extends EntityLiving {
 		}
 	}
 
-	public void displayGUIFurnace(TileEntityFurnace furnaceTileEntity) {
+	public void displayGUIFurnace(TileEntityFurnace tileEntityFurnace) {
 	}
 
-	public void displayGUIEditSign(TileEntitySign signTileEntity) {
-	}
-
-	public void interactWithEntity(Entity entity) {
+	public void displayGUIEditSign(TileEntitySign tileEntitySign) {
 	}
 
 	public ItemStack getCurrentEquippedItem() {

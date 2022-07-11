@@ -46,8 +46,8 @@ public class EntityMob extends EntityCreature implements IMobs {
 		}
 	}
 
-	protected void attackEntity(Entity entity, float distance) {
-		if((double)distance < 2.5D && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY) {
+	protected void attackEntity(Entity entity, float damage) {
+		if((double)damage < 2.5D && entity.boundingBox.maxY > this.boundingBox.minY && entity.boundingBox.minY < this.boundingBox.maxY) {
 			this.attackTime = 20;
 			entity.attackEntityFrom(this, this.attackStrength);
 		}
@@ -58,12 +58,12 @@ public class EntityMob extends EntityCreature implements IMobs {
 		return 0.5F - this.worldObj.getBrightness(x, y, z);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	public boolean getCanSpawnHere() {

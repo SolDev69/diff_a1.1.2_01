@@ -140,12 +140,12 @@ public class WorldGenBigTree extends WorldGenerator {
 		return var1 >= 0 && var1 < this.leafDistanceLimit ? (var1 != 0 && var1 != this.leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
 	}
 
-	void generateLeafNode(int var1, int var2, int var3) {
-		int var4 = var2;
+	void generateLeafNode(int x, int y, int z) {
+		int var4 = y;
 
-		for(int var5 = var2 + this.leafDistanceLimit; var4 < var5; ++var4) {
-			float var6 = this.leafSize(var4 - var2);
-			this.genTreeLayer(var1, var4, var3, var6, (byte)1, 18);
+		for(int var5 = y + this.leafDistanceLimit; var4 < var5; ++var4) {
+			float var6 = this.leafSize(var4 - y);
+			this.genTreeLayer(x, var4, z, var6, (byte)1, 18);
 		}
 
 	}
@@ -304,23 +304,23 @@ public class WorldGenBigTree extends WorldGenerator {
 		}
 	}
 
-	public void setScale(double var1, double var3, double var5) {
-		this.heightLimitLimit = (int)(var1 * 12.0D);
-		if(var1 > 0.5D) {
+	public void setScale(double scaleX, double scaleY, double scaleZ) {
+		this.heightLimitLimit = (int)(scaleX * 12.0D);
+		if(scaleX > 0.5D) {
 			this.leafDistanceLimit = 5;
 		}
 
-		this.scaleWidth = var3;
-		this.leafDensity = var5;
+		this.scaleWidth = scaleY;
+		this.leafDensity = scaleZ;
 	}
 
-	public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
-		this.worldObj = var1;
-		long var6 = var2.nextLong();
+	public boolean generate(World world, Random rand, int x, int y, int z) {
+		this.worldObj = world;
+		long var6 = rand.nextLong();
 		this.rand.setSeed(var6);
-		this.basePos[0] = var3;
-		this.basePos[1] = var4;
-		this.basePos[2] = var5;
+		this.basePos[0] = x;
+		this.basePos[1] = y;
+		this.basePos[2] = z;
 		if(this.heightLimit == 0) {
 			this.heightLimit = 5 + this.rand.nextInt(this.heightLimitLimit);
 		}

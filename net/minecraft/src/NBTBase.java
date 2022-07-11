@@ -17,8 +17,8 @@ public abstract class NBTBase {
 		return this.key == null ? "" : this.key;
 	}
 
-	public NBTBase setKey(String name) {
-		this.key = name;
+	public NBTBase setKey(String key) {
+		this.key = key;
 		return this;
 	}
 
@@ -34,11 +34,11 @@ public abstract class NBTBase {
 		}
 	}
 
-	public static void writeNamedTag(NBTBase tag, DataOutput dataOutput) throws IOException {
-		dataOutput.writeByte(tag.getType());
-		if(tag.getType() != 0) {
-			dataOutput.writeUTF(tag.getKey());
-			tag.writeTagContents(dataOutput);
+	public static void writeNamedTag(NBTBase nbtbase, DataOutput dataOutput) throws IOException {
+		dataOutput.writeByte(nbtbase.getType());
+		if(nbtbase.getType() != 0) {
+			dataOutput.writeUTF(nbtbase.getKey());
+			nbtbase.writeTagContents(dataOutput);
 		}
 	}
 

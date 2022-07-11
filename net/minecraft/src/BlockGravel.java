@@ -7,7 +7,7 @@ public class BlockGravel extends BlockSand {
 		super(var1, var2);
 	}
 
-	public int idDropped(int metadata, Random rand) {
-		return rand.nextInt(10) == 0 ? Item.flint.shiftedIndex : this.blockID;
+	public int idDropped(int count, Random random) {
+		return random.nextInt(10) == 0 ? Item.flint.shiftedIndex : this.blockID;
 	}
 }

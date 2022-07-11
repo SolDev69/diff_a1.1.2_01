@@ -16,13 +16,8 @@ public class BlockSign extends BlockContainer {
 		this.setBlockBounds(0.5F - var4, 0.0F, 0.5F - var4, 0.5F + var4, var5, 0.5F + var4);
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldObj, int x, int y, int z) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
-	}
-
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World worldObj, int x, int y, int z) {
-		this.setBlockBoundsBasedOnState(worldObj, x, y, z);
-		return super.getSelectedBoundingBoxFromPool(worldObj, x, y, z);
 	}
 
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
@@ -57,10 +52,6 @@ public class BlockSign extends BlockContainer {
 		return -1;
 	}
 
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -73,41 +64,41 @@ public class BlockSign extends BlockContainer {
 		}
 	}
 
-	public int idDropped(int metadata, Random rand) {
+	public int idDropped(int count, Random random) {
 		return Item.sign.shiftedIndex;
 	}
 
-	public void onNeighborBlockChange(World worldObj, int x, int y, int z, int id) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, int flag) {
 		boolean var6 = false;
 		if(this.isFreestanding) {
-			if(!worldObj.getBlockMaterial(x, y - 1, z).isSolid()) {
+			if(!world.getBlockMaterial(x, y - 1, z).isSolid()) {
 				var6 = true;
 			}
 		} else {
-			int var7 = worldObj.getBlockMetadata(x, y, z);
+			int var7 = world.getBlockMetadata(x, y, z);
 			var6 = true;
-			if(var7 == 2 && worldObj.getBlockMaterial(x, y, z + 1).isSolid()) {
+			if(var7 == 2 && world.getBlockMaterial(x, y, z + 1).isSolid()) {
 				var6 = false;
 			}
 
-			if(var7 == 3 && worldObj.getBlockMaterial(x, y, z - 1).isSolid()) {
+			if(var7 == 3 && world.getBlockMaterial(x, y, z - 1).isSolid()) {
 				var6 = false;
 			}
 
-			if(var7 == 4 && worldObj.getBlockMaterial(x + 1, y, z).isSolid()) {
+			if(var7 == 4 && world.getBlockMaterial(x + 1, y, z).isSolid()) {
 				var6 = false;
 			}
 
-			if(var7 == 5 && worldObj.getBlockMaterial(x - 1, y, z).isSolid()) {
+			if(var7 == 5 && world.getBlockMaterial(x - 1, y, z).isSolid()) {
 				var6 = false;
 			}
 		}
 
 		if(var6) {
-			this.dropBlockAsItem(worldObj, x, y, z, worldObj.getBlockMetadata(x, y, z));
-			worldObj.setBlockWithNotify(x, y, z, 0);
+			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z));
+			world.setBlockWithNotify(x, y, z, 0);
 		}
 
-		super.onNeighborBlockChange(worldObj, x, y, z, id);
+		super.onNeighborBlockChange(world, x, y, z, flag);
 	}
 }

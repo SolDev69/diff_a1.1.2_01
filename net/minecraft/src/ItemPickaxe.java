@@ -4,9 +4,9 @@ public class ItemPickaxe extends ItemTool {
 	private static Block[] blocksEffectiveAgainst = new Block[]{Block.cobblestone, Block.stairDouble, Block.stairSingle, Block.stone, Block.cobblestoneMossy, Block.oreIron, Block.blockSteel, Block.oreCoal, Block.blockGold, Block.oreGold, Block.oreDiamond, Block.blockDiamond, Block.ice};
 	private int harvestLevel;
 
-	public ItemPickaxe(int id, int harvestLevel) {
-		super(id, 2, harvestLevel, blocksEffectiveAgainst);
-		this.harvestLevel = harvestLevel;
+	public ItemPickaxe(int itemID, int harvestLevelAndMaterial) {
+		super(itemID, 2, harvestLevelAndMaterial, blocksEffectiveAgainst);
+		this.harvestLevel = harvestLevelAndMaterial;
 	}
 
 	public boolean canHarvestBlock(Block block) {

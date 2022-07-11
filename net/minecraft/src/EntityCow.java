@@ -9,12 +9,12 @@ public class EntityCow extends EntityAnimal {
 		this.setSize(0.9F, 1.3F);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	protected String getLivingSound() {
@@ -35,15 +35,5 @@ public class EntityCow extends EntityAnimal {
 
 	protected int getDropItemId() {
 		return Item.leather.shiftedIndex;
-	}
-
-	public boolean interact(EntityPlayer entityPlayer) {
-		ItemStack var2 = entityPlayer.inventory.getCurrentItem();
-		if(var2 != null && var2.itemID == Item.bucketEmpty.shiftedIndex) {
-			entityPlayer.inventory.setInventorySlotContents(entityPlayer.inventory.currentItem, new ItemStack(Item.bucketMilk));
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

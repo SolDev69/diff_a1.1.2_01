@@ -5,6 +5,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet31RelEntityMove extends Packet30Entity {
+	public Packet31RelEntityMove() {
+	}
+
+	public Packet31RelEntityMove(int entityID, byte xPosition, byte yPosition, byte zPosition) {
+		super(entityID);
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		super.readPacketData(dataInputStream);
 		this.xPosition = dataInputStream.readByte();

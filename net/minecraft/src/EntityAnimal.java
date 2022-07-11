@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public abstract class EntityAnimal extends EntityCreature {
+public abstract class EntityAnimal extends EntityCreature implements IAnimals {
 	public EntityAnimal(World var1) {
 		super(var1);
 	}
@@ -9,12 +9,12 @@ public abstract class EntityAnimal extends EntityCreature {
 		return this.worldObj.getBlockId(x, y - 1, z) == Block.grass.blockID ? 10.0F : this.worldObj.getBrightness(x, y, z) - 0.5F;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	public boolean getCanSpawnHere() {

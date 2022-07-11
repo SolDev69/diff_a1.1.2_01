@@ -34,23 +34,23 @@ public class EntityArrow extends Entity {
 		this.setArrowHeading(this.motionX, this.motionY, this.motionZ, 1.5F, 1.0F);
 	}
 
-	public void setArrowHeading(double moveX, double moveY, double moveZ, float arrowSpeed, float arrowSpread) {
-		float var9 = MathHelper.sqrt_double(moveX * moveX + moveY * moveY + moveZ * moveZ);
-		moveX /= (double)var9;
-		moveY /= (double)var9;
-		moveZ /= (double)var9;
-		moveX += this.rand.nextGaussian() * (double)0.0075F * (double)arrowSpread;
-		moveY += this.rand.nextGaussian() * (double)0.0075F * (double)arrowSpread;
-		moveZ += this.rand.nextGaussian() * (double)0.0075F * (double)arrowSpread;
-		moveX *= (double)arrowSpeed;
-		moveY *= (double)arrowSpeed;
-		moveZ *= (double)arrowSpeed;
-		this.motionX = moveX;
-		this.motionY = moveY;
-		this.motionZ = moveZ;
-		float var10 = MathHelper.sqrt_double(moveX * moveX + moveZ * moveZ);
-		this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(moveX, moveZ) * 180.0D / (double)(float)Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(moveY, (double)var10) * 180.0D / (double)(float)Math.PI);
+	public void setArrowHeading(double motionX, double motionY, double motionZ, float offsetY, float offsetX) {
+		float var9 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+		motionX /= (double)var9;
+		motionY /= (double)var9;
+		motionZ /= (double)var9;
+		motionX += this.rand.nextGaussian() * (double)0.0075F * (double)offsetX;
+		motionY += this.rand.nextGaussian() * (double)0.0075F * (double)offsetX;
+		motionZ += this.rand.nextGaussian() * (double)0.0075F * (double)offsetX;
+		motionX *= (double)offsetY;
+		motionY *= (double)offsetY;
+		motionZ *= (double)offsetY;
+		this.motionX = motionX;
+		this.motionY = motionY;
+		this.motionZ = motionZ;
+		float var10 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / (double)(float)Math.PI);
+		this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(motionY, (double)var10) * 180.0D / (double)(float)Math.PI);
 		this.ticksInGround = 0;
 	}
 
@@ -188,22 +188,22 @@ public class EntityArrow extends Entity {
 		this.setPosition(this.posX, this.posY, this.posZ);
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setShort("xTile", (short)this.xTile);
-		compoundTag.setShort("yTile", (short)this.yTile);
-		compoundTag.setShort("zTile", (short)this.zTile);
-		compoundTag.setByte("inTile", (byte)this.inTile);
-		compoundTag.setByte("shake", (byte)this.arrowShake);
-		compoundTag.setByte("inGround", (byte)(this.inData ? 1 : 0));
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setShort("xTile", (short)this.xTile);
+		nbttagcompound.setShort("yTile", (short)this.yTile);
+		nbttagcompound.setShort("zTile", (short)this.zTile);
+		nbttagcompound.setByte("inTile", (byte)this.inTile);
+		nbttagcompound.setByte("shake", (byte)this.arrowShake);
+		nbttagcompound.setByte("inGround", (byte)(this.inData ? 1 : 0));
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.xTile = compoundTag.getShort("xTile");
-		this.yTile = compoundTag.getShort("yTile");
-		this.zTile = compoundTag.getShort("zTile");
-		this.inTile = compoundTag.getByte("inTile") & 255;
-		this.arrowShake = compoundTag.getByte("shake") & 255;
-		this.inData = compoundTag.getByte("inGround") == 1;
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.xTile = nbttagcompound.getShort("xTile");
+		this.yTile = nbttagcompound.getShort("yTile");
+		this.zTile = nbttagcompound.getShort("zTile");
+		this.inTile = nbttagcompound.getByte("inTile") & 255;
+		this.arrowShake = nbttagcompound.getByte("shake") & 255;
+		this.inData = nbttagcompound.getByte("inGround") == 1;
 	}
 
 	public void onCollideWithPlayer(EntityPlayer entityPlayer) {
@@ -213,9 +213,5 @@ public class EntityArrow extends Entity {
 			this.setEntityDead();
 		}
 
-	}
-
-	public float getShadowSize() {
-		return 0.0F;
 	}
 }

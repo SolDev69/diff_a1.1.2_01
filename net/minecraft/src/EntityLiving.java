@@ -72,10 +72,6 @@ public class EntityLiving extends Entity {
 		return this.worldObj.rayTraceBlocks(Vec3D.createVector(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ), Vec3D.createVector(entity.posX, entity.posY + (double)entity.getEyeHeight(), entity.posZ)) == null;
 	}
 
-	public String getTexture() {
-		return this.texture;
-	}
-
 	public boolean canBeCollidedWith() {
 		return !this.isDead;
 	}
@@ -177,16 +173,6 @@ public class EntityLiving extends Entity {
 		super.updateRidden();
 		this.ridingRotUnused = this.prevRidingRotUnused;
 		this.prevRidingRotUnused = 0.0F;
-	}
-
-	public void setPositionAndRotation(double x, double y, double z, float rotationYaw, float rotationPitch, int newPosRotationIncrements) {
-		this.yOffset = 0.0F;
-		this.newPosX = x;
-		this.newPosY = y;
-		this.newPosZ = z;
-		this.newRotationYaw = (double)rotationYaw;
-		this.newRotationPitch = (double)rotationPitch;
-		this.newPosRotationIncrements = newPosRotationIncrements;
 	}
 
 	public void onUpdate() {
@@ -394,8 +380,8 @@ public class EntityLiving extends Entity {
 		return 0;
 	}
 
-	protected void fall(float distance) {
-		int var2 = (int)Math.ceil((double)(distance - 3.0F));
+	protected void fall(float var1) {
+		int var2 = (int)Math.ceil((double)(var1 - 3.0F));
 		if(var2 > 0) {
 			this.attackEntityFrom((Entity)null, var2);
 			int var3 = this.worldObj.getBlockId(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY - (double)0.2F - (double)this.yOffset), MathHelper.floor_double(this.posZ));
@@ -407,11 +393,11 @@ public class EntityLiving extends Entity {
 
 	}
 
-	public void moveEntityWithHeading(float moveX, float moveZ) {
+	public void moveEntityWithHeading(float var1, float var2) {
 		double var3;
 		if(this.handleWaterMovement()) {
 			var3 = this.posY;
-			this.moveFlying(moveX, moveZ, 0.02F);
+			this.moveFlying(var1, var2, 0.02F);
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 			this.motionX *= (double)0.8F;
 			this.motionY *= (double)0.8F;
@@ -422,7 +408,7 @@ public class EntityLiving extends Entity {
 			}
 		} else if(this.handleLavaMovement()) {
 			var3 = this.posY;
-			this.moveFlying(moveX, moveZ, 0.02F);
+			this.moveFlying(var1, var2, 0.02F);
 			this.moveEntity(this.motionX, this.motionY, this.motionZ);
 			this.motionX *= 0.5D;
 			this.motionY *= 0.5D;
@@ -442,7 +428,7 @@ public class EntityLiving extends Entity {
 			}
 
 			float var9 = 0.16277136F / (var8 * var8 * var8);
-			this.moveFlying(moveX, moveZ, this.onGround ? 0.1F * var9 : 0.02F);
+			this.moveFlying(var1, var2, this.onGround ? 0.1F * var9 : 0.02F);
 			var8 = 0.91F;
 			if(this.onGround) {
 				var8 = 0.54600006F;
@@ -489,22 +475,22 @@ public class EntityLiving extends Entity {
 		return this.worldObj.getBlockId(var1, var2, var3) == Block.ladder.blockID || this.worldObj.getBlockId(var1, var2 + 1, var3) == Block.ladder.blockID;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setShort("Health", (short)this.health);
-		compoundTag.setShort("HurtTime", (short)this.hurtTime);
-		compoundTag.setShort("DeathTime", (short)this.deathTime);
-		compoundTag.setShort("AttackTime", (short)this.attackTime);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setShort("Health", (short)this.health);
+		nbttagcompound.setShort("HurtTime", (short)this.hurtTime);
+		nbttagcompound.setShort("DeathTime", (short)this.deathTime);
+		nbttagcompound.setShort("AttackTime", (short)this.attackTime);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.health = compoundTag.getShort("Health");
-		if(!compoundTag.hasKey("Health")) {
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.health = nbttagcompound.getShort("Health");
+		if(!nbttagcompound.hasKey("Health")) {
 			this.health = 10;
 		}
 
-		this.hurtTime = compoundTag.getShort("HurtTime");
-		this.deathTime = compoundTag.getShort("DeathTime");
-		this.attackTime = compoundTag.getShort("AttackTime");
+		this.hurtTime = nbttagcompound.getShort("HurtTime");
+		this.deathTime = nbttagcompound.getShort("DeathTime");
+		this.attackTime = nbttagcompound.getShort("AttackTime");
 	}
 
 	public boolean isEntityAlive() {
@@ -678,40 +664,31 @@ public class EntityLiving extends Entity {
 		this.attackEntityFrom((Entity)null, 4);
 	}
 
-	public float getSwingProgress(float renderPartialTick) {
-		float var2 = this.swingProgress - this.prevSwingProgress;
-		if(var2 < 0.0F) {
-			++var2;
-		}
-
-		return this.prevSwingProgress + var2 * renderPartialTick;
-	}
-
-	public Vec3D getPosition(float renderPartialTick) {
-		if(renderPartialTick == 1.0F) {
+	public Vec3D getPosition(float var1) {
+		if(var1 == 1.0F) {
 			return Vec3D.createVector(this.posX, this.posY, this.posZ);
 		} else {
-			double var2 = this.prevPosX + (this.posX - this.prevPosX) * (double)renderPartialTick;
-			double var4 = this.prevPosY + (this.posY - this.prevPosY) * (double)renderPartialTick;
-			double var6 = this.prevPosZ + (this.posZ - this.prevPosZ) * (double)renderPartialTick;
+			double var2 = this.prevPosX + (this.posX - this.prevPosX) * (double)var1;
+			double var4 = this.prevPosY + (this.posY - this.prevPosY) * (double)var1;
+			double var6 = this.prevPosZ + (this.posZ - this.prevPosZ) * (double)var1;
 			return Vec3D.createVector(var2, var4, var6);
 		}
 	}
 
-	public Vec3D getLook(float renderPartialTick) {
+	public Vec3D getLook(float var1) {
 		float var2;
 		float var3;
 		float var4;
 		float var5;
-		if(renderPartialTick == 1.0F) {
+		if(var1 == 1.0F) {
 			var2 = MathHelper.cos(-this.rotationYaw * 0.017453292F - (float)Math.PI);
 			var3 = MathHelper.sin(-this.rotationYaw * 0.017453292F - (float)Math.PI);
 			var4 = -MathHelper.cos(-this.rotationPitch * 0.017453292F);
 			var5 = MathHelper.sin(-this.rotationPitch * 0.017453292F);
 			return Vec3D.createVector((double)(var3 * var4), (double)var5, (double)(var2 * var4));
 		} else {
-			var2 = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * renderPartialTick;
-			var3 = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * renderPartialTick;
+			var2 = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * var1;
+			var3 = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * var1;
 			var4 = MathHelper.cos(-var3 * 0.017453292F - (float)Math.PI);
 			var5 = MathHelper.sin(-var3 * 0.017453292F - (float)Math.PI);
 			float var6 = -MathHelper.cos(-var2 * 0.017453292F);
@@ -720,9 +697,9 @@ public class EntityLiving extends Entity {
 		}
 	}
 
-	public MovingObjectPosition rayTrace(double var1, float renderPartialTick) {
-		Vec3D var4 = this.getPosition(renderPartialTick);
-		Vec3D var5 = this.getLook(renderPartialTick);
+	public MovingObjectPosition rayTrace(double var1, float var3) {
+		Vec3D var4 = this.getPosition(var3);
+		Vec3D var5 = this.getLook(var3);
 		Vec3D var6 = var4.addVector(var5.xCoord * var1, var5.yCoord * var1, var5.zCoord * var1);
 		return this.worldObj.rayTraceBlocks(var4, var6);
 	}

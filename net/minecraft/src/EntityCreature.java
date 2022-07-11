@@ -129,7 +129,7 @@ public class EntityCreature extends EntityLiving {
 		}
 	}
 
-	protected void attackEntity(Entity entity, float distance) {
+	protected void attackEntity(Entity entity, float damage) {
 	}
 
 	protected float getBlockPathWeight(int x, int y, int z) {

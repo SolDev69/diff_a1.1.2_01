@@ -11,17 +11,6 @@ public class Packet15Place extends Packet {
 	public int zPosition;
 	public int direction;
 
-	public Packet15Place() {
-	}
-
-	public Packet15Place(int id, int x, int y, int z, int direction) {
-		this.id = id;
-		this.xPosition = x;
-		this.yPosition = y;
-		this.zPosition = z;
-		this.direction = direction;
-	}
-
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.id = dataInputStream.readShort();
 		this.xPosition = dataInputStream.readInt();

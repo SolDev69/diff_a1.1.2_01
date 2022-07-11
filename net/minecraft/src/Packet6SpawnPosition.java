@@ -9,6 +9,15 @@ public class Packet6SpawnPosition extends Packet {
 	public int yPosition;
 	public int zPosition;
 
+	public Packet6SpawnPosition() {
+	}
+
+	public Packet6SpawnPosition(int xPosition, int yPosition, int zPosition) {
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.xPosition = dataInputStream.readInt();
 		this.yPosition = dataInputStream.readInt();

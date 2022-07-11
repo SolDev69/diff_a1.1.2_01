@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 public class Packet51MapChunk extends Packet {
@@ -18,6 +19,28 @@ public class Packet51MapChunk extends Packet {
 
 	public Packet51MapChunk() {
 		this.isChunkDataPacket = true;
+	}
+
+	public Packet51MapChunk(int xPosition, int yPosition, int zPosition, int xSize, int ySize, int zSize, World world) {
+		this.isChunkDataPacket = true;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+		this.xSize = xSize;
+		this.ySize = ySize;
+		this.zSize = zSize;
+		byte[] var8 = world.getChunkData(xPosition, yPosition, zPosition, xSize, ySize, zSize);
+		Deflater var9 = new Deflater(1);
+
+		try {
+			var9.setInput(var8);
+			var9.finish();
+			this.chunkData = new byte[xSize * ySize * zSize * 5 / 2];
+			this.tempLength = var9.deflate(this.chunkData);
+		} finally {
+			var9.end();
+		}
+
 	}
 
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {

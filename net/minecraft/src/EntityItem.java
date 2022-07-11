@@ -8,8 +8,8 @@ public class EntityItem extends Entity {
 	private int health = 5;
 	public float hoverStart = (float)(Math.random() * Math.PI * 2.0D);
 
-	public EntityItem(World worldObj, double x, double y, double z, ItemStack item) {
-		super(worldObj);
+	public EntityItem(World world, double x, double y, double z, ItemStack item) {
+		super(world);
 		this.setSize(0.25F, 0.25F);
 		this.yOffset = this.height / 2.0F;
 		this.setPosition(x, y, z);
@@ -150,8 +150,8 @@ public class EntityItem extends Entity {
 		return false;
 	}
 
-	protected void dealFireDamage(int damage) {
-		this.attackEntityFrom((Entity)null, damage);
+	protected void dealFireDamage(int fireDamage) {
+		this.attackEntityFrom((Entity)null, fireDamage);
 	}
 
 	public boolean attackEntityFrom(Entity entity, int damage) {
@@ -163,16 +163,16 @@ public class EntityItem extends Entity {
 		return false;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setShort("Health", (short)((byte)this.health));
-		compoundTag.setShort("Age", (short)this.age);
-		compoundTag.setCompoundTag("Item", this.item.writeToNBT(new NBTTagCompound()));
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setShort("Health", (short)((byte)this.health));
+		nbttagcompound.setShort("Age", (short)this.age);
+		nbttagcompound.setCompoundTag("Item", this.item.writeToNBT(new NBTTagCompound()));
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.health = compoundTag.getShort("Health") & 255;
-		this.age = compoundTag.getShort("Age");
-		NBTTagCompound var2 = compoundTag.getCompoundTag("Item");
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.health = nbttagcompound.getShort("Health") & 255;
+		this.age = nbttagcompound.getShort("Age");
+		NBTTagCompound var2 = nbttagcompound.getCompoundTag("Item");
 		this.item = new ItemStack(var2);
 	}
 

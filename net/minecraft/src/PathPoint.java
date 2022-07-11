@@ -12,11 +12,11 @@ public class PathPoint {
 	PathPoint previous;
 	public boolean isFirst = false;
 
-	public PathPoint(int x, int y, int z) {
-		this.xCoord = x;
-		this.yCoord = y;
-		this.zCoord = z;
-		this.hash = x | y << 10 | z << 20;
+	public PathPoint(int xCoord, int yCoord, int zCoord) {
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+		this.zCoord = zCoord;
+		this.hash = xCoord | yCoord << 10 | zCoord << 20;
 	}
 
 	public float distanceTo(PathPoint pathPoint) {
@@ -26,8 +26,8 @@ public class PathPoint {
 		return MathHelper.sqrt_float(var2 * var2 + var3 * var3 + var4 * var4);
 	}
 
-	public boolean equals(Object pathPoint) {
-		return ((PathPoint)pathPoint).hash == this.hash;
+	public boolean equals(Object object) {
+		return ((PathPoint)object).hash == this.hash;
 	}
 
 	public int hashCode() {

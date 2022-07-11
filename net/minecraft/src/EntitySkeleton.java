@@ -29,8 +29,8 @@ public class EntitySkeleton extends EntityMob {
 		super.onLivingUpdate();
 	}
 
-	protected void attackEntity(Entity entity, float distance) {
-		if(distance < 10.0F) {
+	protected void attackEntity(Entity entity, float damage) {
+		if(damage < 10.0F) {
 			double var3 = entity.posX - this.posX;
 			double var5 = entity.posZ - this.posZ;
 			if(this.attackTime == 0) {
@@ -50,12 +50,12 @@ public class EntitySkeleton extends EntityMob {
 
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	protected int getDropItemId() {

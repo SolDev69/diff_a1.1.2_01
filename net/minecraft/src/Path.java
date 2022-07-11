@@ -37,10 +37,10 @@ public class Path {
 		return var1;
 	}
 
-	public void changeDistance(PathPoint pathPoint, float distance) {
+	public void changeDistance(PathPoint pathPoint, float distanceToTarget) {
 		float var3 = pathPoint.distanceToTarget;
-		pathPoint.distanceToTarget = distance;
-		if(distance < var3) {
+		pathPoint.distanceToTarget = distanceToTarget;
+		if(distanceToTarget < var3) {
 			this.sortBack(pathPoint.index);
 		} else {
 			this.sortForward(pathPoint.index);

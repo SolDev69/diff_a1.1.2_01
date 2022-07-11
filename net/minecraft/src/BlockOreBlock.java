@@ -1,9 +1,9 @@
 package net.minecraft.src;
 
 public class BlockOreBlock extends Block {
-	public BlockOreBlock(int id, int tex) {
+	public BlockOreBlock(int id, int blockIndex) {
 		super(id, Material.iron);
-		this.blockIndexInTexture = tex;
+		this.blockIndexInTexture = blockIndex;
 	}
 
 	public int getBlockTextureFromSide(int side) {

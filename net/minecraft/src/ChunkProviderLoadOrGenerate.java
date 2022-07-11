@@ -21,37 +21,37 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 		this.chunkProvider = chunkProvider;
 	}
 
-	public boolean chunkExists(int chunkX, int chunkZ) {
-		if(chunkX == this.lastQueriedChunkXPos && chunkZ == this.lastQueriedChunkZPos && this.lastQueriedChunk != null) {
+	public boolean chunkExists(int x, int z) {
+		if(x == this.lastQueriedChunkXPos && z == this.lastQueriedChunkZPos && this.lastQueriedChunk != null) {
 			return true;
 		} else {
-			int var3 = chunkX & 31;
-			int var4 = chunkZ & 31;
+			int var3 = x & 31;
+			int var4 = z & 31;
 			int var5 = var3 + var4 * 32;
-			return this.chunks[var5] != null && (this.chunks[var5] == this.blankChunk || this.chunks[var5].isAtLocation(chunkX, chunkZ));
+			return this.chunks[var5] != null && (this.chunks[var5] == this.blankChunk || this.chunks[var5].isAtLocation(x, z));
 		}
 	}
 
-	public Chunk provideChunk(int chunkX, int chunkZ) {
-		if(chunkX == this.lastQueriedChunkXPos && chunkZ == this.lastQueriedChunkZPos && this.lastQueriedChunk != null) {
+	public Chunk provideChunk(int x, int z) {
+		if(x == this.lastQueriedChunkXPos && z == this.lastQueriedChunkZPos && this.lastQueriedChunk != null) {
 			return this.lastQueriedChunk;
 		} else {
-			int var3 = chunkX & 31;
-			int var4 = chunkZ & 31;
+			int var3 = x & 31;
+			int var4 = z & 31;
 			int var5 = var3 + var4 * 32;
-			if(!this.chunkExists(chunkX, chunkZ)) {
+			if(!this.chunkExists(x, z)) {
 				if(this.chunks[var5] != null) {
 					this.chunks[var5].onChunkUnload();
 					this.saveChunk(this.chunks[var5]);
 					this.saveExtraChunkData(this.chunks[var5]);
 				}
 
-				Chunk var6 = this.getChunkAt(chunkX, chunkZ);
+				Chunk var6 = this.getChunkAt(x, z);
 				if(var6 == null) {
 					if(this.chunkProvider == null) {
 						var6 = this.blankChunk;
 					} else {
-						var6 = this.chunkProvider.provideChunk(chunkX, chunkZ);
+						var6 = this.chunkProvider.provideChunk(x, z);
 					}
 				}
 
@@ -60,36 +60,36 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 					this.chunks[var5].onChunkLoad();
 				}
 
-				if(!this.chunks[var5].isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX + 1, chunkZ)) {
-					this.populate(this, chunkX, chunkZ);
+				if(!this.chunks[var5].isTerrainPopulated && this.chunkExists(x + 1, z + 1) && this.chunkExists(x, z + 1) && this.chunkExists(x + 1, z)) {
+					this.populate(this, x, z);
 				}
 
-				if(this.chunkExists(chunkX - 1, chunkZ) && !this.provideChunk(chunkX - 1, chunkZ).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ + 1) && this.chunkExists(chunkX, chunkZ + 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-					this.populate(this, chunkX - 1, chunkZ);
+				if(this.chunkExists(x - 1, z) && !this.provideChunk(x - 1, z).isTerrainPopulated && this.chunkExists(x - 1, z + 1) && this.chunkExists(x, z + 1) && this.chunkExists(x - 1, z)) {
+					this.populate(this, x - 1, z);
 				}
 
-				if(this.chunkExists(chunkX, chunkZ - 1) && !this.provideChunk(chunkX, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX + 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX + 1, chunkZ)) {
-					this.populate(this, chunkX, chunkZ - 1);
+				if(this.chunkExists(x, z - 1) && !this.provideChunk(x, z - 1).isTerrainPopulated && this.chunkExists(x + 1, z - 1) && this.chunkExists(x, z - 1) && this.chunkExists(x + 1, z)) {
+					this.populate(this, x, z - 1);
 				}
 
-				if(this.chunkExists(chunkX - 1, chunkZ - 1) && !this.provideChunk(chunkX - 1, chunkZ - 1).isTerrainPopulated && this.chunkExists(chunkX - 1, chunkZ - 1) && this.chunkExists(chunkX, chunkZ - 1) && this.chunkExists(chunkX - 1, chunkZ)) {
-					this.populate(this, chunkX - 1, chunkZ - 1);
+				if(this.chunkExists(x - 1, z - 1) && !this.provideChunk(x - 1, z - 1).isTerrainPopulated && this.chunkExists(x - 1, z - 1) && this.chunkExists(x, z - 1) && this.chunkExists(x - 1, z)) {
+					this.populate(this, x - 1, z - 1);
 				}
 			}
 
-			this.lastQueriedChunkXPos = chunkX;
-			this.lastQueriedChunkZPos = chunkZ;
+			this.lastQueriedChunkXPos = x;
+			this.lastQueriedChunkZPos = z;
 			this.lastQueriedChunk = this.chunks[var5];
 			return this.chunks[var5];
 		}
 	}
 
-	private Chunk getChunkAt(int posX, int posZ) {
+	private Chunk getChunkAt(int x, int z) {
 		if(this.chunkLoader == null) {
 			return null;
 		} else {
 			try {
-				Chunk var3 = this.chunkLoader.loadChunk(this.worldObj, posX, posZ);
+				Chunk var3 = this.chunkLoader.loadChunk(this.worldObj, x, z);
 				if(var3 != null) {
 					var3.lastSaveTime = this.worldObj.worldTime;
 				}
@@ -125,25 +125,25 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 		}
 	}
 
-	public void populate(IChunkProvider chunkProvider, int chunkX, int chunkZ) {
-		Chunk var4 = this.provideChunk(chunkX, chunkZ);
+	public void populate(IChunkProvider chunkProvider, int x, int z) {
+		Chunk var4 = this.provideChunk(x, z);
 		if(!var4.isTerrainPopulated) {
 			var4.isTerrainPopulated = true;
 			if(this.chunkProvider != null) {
-				this.chunkProvider.populate(chunkProvider, chunkX, chunkZ);
+				this.chunkProvider.populate(chunkProvider, x, z);
 				var4.setChunkModified();
 			}
 		}
 
 	}
 
-	public boolean saveChunks(boolean var1, IProgressUpdate progressUpdate) {
+	public boolean saveChunks(boolean flag, IProgressUpdate progressUpdate) {
 		int var3 = 0;
 		int var4 = 0;
 		int var5;
 		if(progressUpdate != null) {
 			for(var5 = 0; var5 < this.chunks.length; ++var5) {
-				if(this.chunks[var5] != null && this.chunks[var5].needsSaving(var1)) {
+				if(this.chunks[var5] != null && this.chunks[var5].needsSaving(flag)) {
 					++var4;
 				}
 			}
@@ -153,15 +153,15 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 
 		for(int var6 = 0; var6 < this.chunks.length; ++var6) {
 			if(this.chunks[var6] != null) {
-				if(var1 && !this.chunks[var6].neverSave) {
+				if(flag && !this.chunks[var6].neverSave) {
 					this.saveExtraChunkData(this.chunks[var6]);
 				}
 
-				if(this.chunks[var6].needsSaving(var1)) {
+				if(this.chunks[var6].needsSaving(flag)) {
 					this.saveChunk(this.chunks[var6]);
 					this.chunks[var6].isModified = false;
 					++var3;
-					if(var3 == 2 && !var1) {
+					if(var3 == 2 && !flag) {
 						return false;
 					}
 
@@ -175,7 +175,7 @@ public class ChunkProviderLoadOrGenerate implements IChunkProvider {
 			}
 		}
 
-		if(var1) {
+		if(flag) {
 			if(this.chunkLoader == null) {
 				return true;
 			}

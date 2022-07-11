@@ -11,44 +11,18 @@ public class TileEntityChest extends TileEntity implements IInventory {
 		return this.chestContents[slot];
 	}
 
-	public ItemStack decrStackSize(int slot, int stackSize) {
-		if(this.chestContents[slot] != null) {
-			ItemStack var3;
-			if(this.chestContents[slot].stackSize <= stackSize) {
-				var3 = this.chestContents[slot];
-				this.chestContents[slot] = null;
-				this.onInventoryChanged();
-				return var3;
-			} else {
-				var3 = this.chestContents[slot].splitStack(stackSize);
-				if(this.chestContents[slot].stackSize == 0) {
-					this.chestContents[slot] = null;
-				}
-
-				this.onInventoryChanged();
-				return var3;
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public void setInventorySlotContents(int slot, ItemStack itemStack) {
-		this.chestContents[slot] = itemStack;
-		if(itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) {
-			itemStack.stackSize = this.getInventoryStackLimit();
+	public void setInventorySlotContents(int slot, ItemStack stack) {
+		this.chestContents[slot] = stack;
+		if(stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+			stack.stackSize = this.getInventoryStackLimit();
 		}
 
 		this.onInventoryChanged();
 	}
 
-	public String getInvName() {
-		return "Chest";
-	}
-
-	public void readFromNBT(NBTTagCompound compoundTag) {
-		super.readFromNBT(compoundTag);
-		NBTTagList var2 = compoundTag.getTagList("Items");
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
+		super.readFromNBT(nbttagcompound);
+		NBTTagList var2 = nbttagcompound.getTagList("Items");
 		this.chestContents = new ItemStack[this.getSizeInventory()];
 
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3) {
@@ -61,8 +35,8 @@ public class TileEntityChest extends TileEntity implements IInventory {
 
 	}
 
-	public void writeToNBT(NBTTagCompound compoundTag) {
-		super.writeToNBT(compoundTag);
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
+		super.writeToNBT(nbttagcompound);
 		NBTTagList var2 = new NBTTagList();
 
 		for(int var3 = 0; var3 < this.chestContents.length; ++var3) {
@@ -74,7 +48,7 @@ public class TileEntityChest extends TileEntity implements IInventory {
 			}
 		}
 
-		compoundTag.setTag("Items", var2);
+		nbttagcompound.setTag("Items", var2);
 	}
 
 	public int getInventoryStackLimit() {

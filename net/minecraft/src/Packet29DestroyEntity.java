@@ -7,6 +7,13 @@ import java.io.IOException;
 public class Packet29DestroyEntity extends Packet {
 	public int entityId;
 
+	public Packet29DestroyEntity() {
+	}
+
+	public Packet29DestroyEntity(int entityID) {
+		this.entityId = entityID;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.entityId = dataInputStream.readInt();
 	}

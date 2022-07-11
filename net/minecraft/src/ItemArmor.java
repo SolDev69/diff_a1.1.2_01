@@ -8,8 +8,8 @@ public class ItemArmor extends Item {
 	public final int damageReduceAmount;
 	public final int renderIndex;
 
-	public ItemArmor(int id, int armorLevel, int renderIndex, int armorType) {
-		super(id);
+	public ItemArmor(int itemID, int armorLevel, int renderIndex, int armorType) {
+		super(itemID);
 		this.armorLevel = armorLevel;
 		this.armorType = armorType;
 		this.renderIndex = renderIndex;

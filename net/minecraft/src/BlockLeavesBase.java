@@ -3,8 +3,8 @@ package net.minecraft.src;
 public class BlockLeavesBase extends Block {
 	protected boolean graphicsLevel;
 
-	protected BlockLeavesBase(int id, int tex, Material material, boolean graphicsLevel) {
-		super(id, tex, material);
+	protected BlockLeavesBase(int id, int blockIndex, Material material, boolean graphicsLevel) {
+		super(id, blockIndex, material);
 		this.graphicsLevel = graphicsLevel;
 	}
 

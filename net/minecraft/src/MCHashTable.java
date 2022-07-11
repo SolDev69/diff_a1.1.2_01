@@ -7,9 +7,9 @@ public class MCHashTable {
 	private final float growFactor = 0.75F;
 	private transient volatile int versionStamp;
 
-	private static int computeHash(int var0) {
-		var0 ^= var0 >>> 20 ^ var0 >>> 12;
-		return var0 ^ var0 >>> 7 ^ var0 >>> 4;
+	private static int computeHash(int hash) {
+		hash ^= hash >>> 20 ^ hash >>> 12;
+		return hash ^ hash >>> 7 ^ hash >>> 4;
 	}
 
 	private static int getSlotIndex(int var0, int var1) {
@@ -22,6 +22,22 @@ public class MCHashTable {
 		for(MCHashEntry var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry) {
 			if(var3.hashEntry == var1) {
 				return var3.valueEntry;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean containsItem(int var1) {
+		return this.lookupEntry(var1) != null;
+	}
+
+	final MCHashEntry lookupEntry(int var1) {
+		int var2 = computeHash(var1);
+
+		for(MCHashEntry var3 = this.slots[getSlotIndex(var2, this.slots.length)]; var3 != null; var3 = var3.nextEntry) {
+			if(var3.hashEntry == var1) {
+				return var3;
 			}
 		}
 

@@ -15,11 +15,11 @@ public class Packet59ComplexEntity extends Packet {
 		this.isChunkDataPacket = true;
 	}
 
-	public Packet59ComplexEntity(int x, int y, int z, TileEntity tileEntity) {
+	public Packet59ComplexEntity(int xCoord, int yCoord, int zCoord, TileEntity tileEntity) {
 		this.isChunkDataPacket = true;
-		this.xCoord = x;
-		this.yCoord = y;
-		this.zCoord = z;
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+		this.zCoord = zCoord;
 		this.tileEntityNBT = new NBTTagCompound();
 		tileEntity.writeToNBT(this.tileEntityNBT);
 

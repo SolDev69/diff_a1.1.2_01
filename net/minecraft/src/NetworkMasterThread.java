@@ -3,8 +3,8 @@ package net.minecraft.src;
 class NetworkMasterThread extends Thread {
 	final NetworkManager netManager;
 
-	NetworkMasterThread(NetworkManager networkManager) {
-		this.netManager = networkManager;
+	NetworkMasterThread(NetworkManager netManager) {
+		this.netManager = netManager;
 	}
 
 	public void run() {

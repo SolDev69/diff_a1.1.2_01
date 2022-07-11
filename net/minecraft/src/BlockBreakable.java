@@ -3,8 +3,8 @@ package net.minecraft.src;
 public class BlockBreakable extends Block {
 	private boolean localFlag;
 
-	protected BlockBreakable(int id, int tex, Material material, boolean localFlag) {
-		super(id, tex, material);
+	protected BlockBreakable(int id, int blockIndex, Material material, boolean localFlag) {
+		super(id, blockIndex, material);
 		this.localFlag = localFlag;
 	}
 

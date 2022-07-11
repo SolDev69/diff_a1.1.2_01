@@ -3,9 +3,9 @@ package net.minecraft.src;
 class NetworkReaderThread extends Thread {
 	final NetworkManager netManager;
 
-	NetworkReaderThread(NetworkManager networkManager, String name) {
-		super(name);
-		this.netManager = networkManager;
+	NetworkReaderThread(NetworkManager netManager, String threadName) {
+		super(threadName);
+		this.netManager = netManager;
 	}
 
 	public void run() {

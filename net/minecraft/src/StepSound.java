@@ -19,10 +19,6 @@ public class StepSound {
 		return this.stepSoundPitch;
 	}
 
-	public String getBreakSound() {
-		return "step." + this.stepSoundName;
-	}
-
 	public String getStepSound() {
 		return "step." + this.stepSoundName;
 	}

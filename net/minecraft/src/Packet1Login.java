@@ -12,10 +12,10 @@ public class Packet1Login extends Packet {
 	public Packet1Login() {
 	}
 
-	public Packet1Login(String username, String mppass, int protocolVer) {
+	public Packet1Login(String username, String password, int protocolVersion) {
 		this.username = username;
-		this.password = mppass;
-		this.protocolVersion = protocolVer;
+		this.password = password;
+		this.protocolVersion = protocolVersion;
 	}
 
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {

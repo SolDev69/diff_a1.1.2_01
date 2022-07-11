@@ -24,6 +24,15 @@ public class Packet34EntityTeleport extends Packet {
 		this.pitch = (byte)((int)(entity.rotationPitch * 256.0F / 360.0F));
 	}
 
+	public Packet34EntityTeleport(int entityID, int xPosition, int yPosition, int zPosition, byte yaw, byte pitch) {
+		this.entityId = entityID;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+		this.yaw = yaw;
+		this.pitch = pitch;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.entityId = dataInputStream.readInt();
 		this.xPosition = dataInputStream.readInt();

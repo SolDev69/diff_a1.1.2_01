@@ -10,8 +10,8 @@ public class NBTTagByteArray extends NBTBase {
 	public NBTTagByteArray() {
 	}
 
-	public NBTTagByteArray(byte[] value) {
-		this.byteArray = value;
+	public NBTTagByteArray(byte[] byteArray) {
+		this.byteArray = byteArray;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

@@ -3,17 +3,17 @@ package net.minecraft.src;
 public class ItemRecord extends Item {
 	private String recordName;
 
-	protected ItemRecord(int id, String record) {
-		super(id);
-		this.recordName = record;
+	protected ItemRecord(int itemID, String recordName) {
+		super(itemID);
+		this.recordName = recordName;
 		this.maxStackSize = 1;
 	}
 
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World worldObj, int x, int y, int z, int side) {
-		if(worldObj.getBlockId(x, y, z) == Block.jukebox.blockID && worldObj.getBlockMetadata(x, y, z) == 0) {
-			worldObj.setBlockMetadataWithNotify(x, y, z, this.shiftedIndex - Item.record13.shiftedIndex + 1);
-			worldObj.playRecord(this.recordName, x, y, z);
-			--itemStack.stackSize;
+	public boolean onItemUse(ItemStack stack, EntityPlayer entityPlayer, World world, int x, int y, int z, int var7) {
+		if(world.getBlockId(x, y, z) == Block.jukebox.blockID && world.getBlockMetadata(x, y, z) == 0) {
+			world.setBlockMetadataWithNotify(x, y, z, this.shiftedIndex - Item.record13.shiftedIndex + 1);
+			world.playRecord(this.recordName, x, y, z);
+			--stack.stackSize;
 			return true;
 		} else {
 			return false;

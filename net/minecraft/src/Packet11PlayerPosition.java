@@ -9,15 +9,6 @@ public class Packet11PlayerPosition extends Packet10Flying {
 		this.moving = true;
 	}
 
-	public Packet11PlayerPosition(double x, double minY, double y, double z, boolean onGround) {
-		this.xPosition = x;
-		this.yPosition = minY;
-		this.stance = y;
-		this.zPosition = z;
-		this.onGround = onGround;
-		this.moving = true;
-	}
-
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.xPosition = dataInputStream.readDouble();
 		this.yPosition = dataInputStream.readDouble();

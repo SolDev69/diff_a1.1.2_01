@@ -7,6 +7,13 @@ import java.io.IOException;
 public class Packet4UpdateTime extends Packet {
 	public long time;
 
+	public Packet4UpdateTime() {
+	}
+
+	public Packet4UpdateTime(long time) {
+		this.time = time;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.time = dataInputStream.readLong();
 	}

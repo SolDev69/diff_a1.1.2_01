@@ -3,15 +3,12 @@ package net.minecraft.src;
 import java.util.List;
 
 public class EntityBoat extends Entity {
-	public int damageTaken;
-	public int timeSinceHit;
-	public int forwardDirection;
+	public int damageTaken = 0;
+	public int timeSinceHit = 0;
+	public int forwardDirection = 1;
 
 	public EntityBoat(World var1) {
 		super(var1);
-		this.damageTaken = 0;
-		this.timeSinceHit = 0;
-		this.forwardDirection = 1;
 		this.preventEntitySpawning = true;
 		this.setSize(1.5F, 0.6F);
 		this.yOffset = this.height / 2.0F;
@@ -28,17 +25,6 @@ public class EntityBoat extends Entity {
 
 	public boolean canBePushed() {
 		return true;
-	}
-
-	public EntityBoat(World worldObj, double x, double y, double z) {
-		this(worldObj);
-		this.setPosition(x, y + (double)this.yOffset, z);
-		this.motionX = 0.0D;
-		this.motionY = 0.0D;
-		this.motionZ = 0.0D;
-		this.prevPosX = x;
-		this.prevPosY = y;
-		this.prevPosZ = z;
 	}
 
 	public double getMountedYOffset() {
@@ -214,18 +200,9 @@ public class EntityBoat extends Entity {
 		this.riddenByEntity.setPosition(this.posX + var1, this.posY + this.getMountedYOffset() + this.riddenByEntity.getYOffset(), this.posZ + var3);
 	}
 
-	protected void writeEntityToNBT(NBTTagCompound compoundTag) {
+	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 	}
 
-	protected void readEntityFromNBT(NBTTagCompound compoundTag) {
-	}
-
-	public float getShadowSize() {
-		return 0.0F;
-	}
-
-	public boolean interact(EntityPlayer entityPlayer) {
-		entityPlayer.mountEntity(this);
-		return true;
+	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
 	}
 }

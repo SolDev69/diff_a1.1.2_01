@@ -47,9 +47,9 @@ public class NBTTagList extends NBTBase {
 		return "" + this.tagList.size() + " entries of type " + NBTBase.getTagName(this.tagType);
 	}
 
-	public void setTag(NBTBase tag) {
-		this.tagType = tag.getType();
-		this.tagList.add(tag);
+	public void setTag(NBTBase nbtbase) {
+		this.tagType = nbtbase.getType();
+		this.tagList.add(nbtbase);
 	}
 
 	public NBTBase tagAt(int index) {

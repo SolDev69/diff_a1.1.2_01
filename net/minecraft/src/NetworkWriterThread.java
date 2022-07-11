@@ -3,9 +3,9 @@ package net.minecraft.src;
 class NetworkWriterThread extends Thread {
 	final NetworkManager netManager;
 
-	NetworkWriterThread(NetworkManager networkManager, String name) {
-		super(name);
-		this.netManager = networkManager;
+	NetworkWriterThread(NetworkManager netManager, String threadName) {
+		super(threadName);
+		this.netManager = netManager;
 	}
 
 	public void run() {

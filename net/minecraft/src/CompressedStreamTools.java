@@ -26,11 +26,11 @@ public class CompressedStreamTools {
 		return var2;
 	}
 
-	public static void writeCompressed(NBTTagCompound compoundTag, OutputStream outputStream) throws IOException {
+	public static void writeCompressed(NBTTagCompound nbttagcompound, OutputStream outputStream) throws IOException {
 		DataOutputStream var2 = new DataOutputStream(new GZIPOutputStream(outputStream));
 
 		try {
-			write(compoundTag, var2);
+			write(nbttagcompound, var2);
 		} finally {
 			var2.close();
 		}
@@ -50,12 +50,12 @@ public class CompressedStreamTools {
 		return var2;
 	}
 
-	public static byte[] compress(NBTTagCompound compoundTag) throws IOException {
+	public static byte[] compress(NBTTagCompound nbttagcompound) throws IOException {
 		ByteArrayOutputStream var1 = new ByteArrayOutputStream();
 		DataOutputStream var2 = new DataOutputStream(new GZIPOutputStream(var1));
 
 		try {
-			write(compoundTag, var2);
+			write(nbttagcompound, var2);
 		} finally {
 			var2.close();
 		}
@@ -72,7 +72,7 @@ public class CompressedStreamTools {
 		}
 	}
 
-	public static void write(NBTTagCompound compoundTag, DataOutput dataOutput) throws IOException {
-		NBTBase.writeNamedTag(compoundTag, dataOutput);
+	public static void write(NBTTagCompound nbttagcompound, DataOutput dataOutput) throws IOException {
+		NBTBase.writeNamedTag(nbttagcompound, dataOutput);
 	}
 }

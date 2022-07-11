@@ -10,9 +10,9 @@ public class NBTTagString extends NBTBase {
 	public NBTTagString() {
 	}
 
-	public NBTTagString(String value) {
-		this.stringValue = value;
-		if(value == null) {
+	public NBTTagString(String stringValue) {
+		this.stringValue = stringValue;
+		if(stringValue == null) {
 			throw new IllegalArgumentException("Empty string not allowed");
 		}
 	}

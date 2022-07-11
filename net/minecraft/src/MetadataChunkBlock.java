@@ -2,33 +2,33 @@ package net.minecraft.src;
 
 public class MetadataChunkBlock {
 	public final EnumSkyBlock skyBlock;
-	public int minX;
-	public int minY;
-	public int minZ;
+	public int x;
+	public int y;
+	public int z;
 	public int maxX;
 	public int maxY;
 	public int maxZ;
 
-	public MetadataChunkBlock(EnumSkyBlock skyBlock, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+	public MetadataChunkBlock(EnumSkyBlock skyBlock, int x, int y, int z, int maxX, int maxY, int maxZ) {
 		this.skyBlock = skyBlock;
-		this.minX = minX;
-		this.minY = minY;
-		this.minZ = minZ;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.maxZ = maxZ;
 	}
 
 	public void updateLight(World world) {
-		int var2 = this.maxX - this.minX;
-		int var3 = this.maxY - this.minY;
-		int var4 = this.maxZ - this.minZ;
+		int var2 = this.maxX - this.x;
+		int var3 = this.maxY - this.y;
+		int var4 = this.maxZ - this.z;
 		int var5 = var2 * var3 * var4;
 		if(var5 <= '\u8000') {
-			for(int var6 = this.minX; var6 <= this.maxX; ++var6) {
-				for(int var7 = this.minZ; var7 <= this.maxZ; ++var7) {
+			for(int var6 = this.x; var6 <= this.maxX; ++var6) {
+				for(int var7 = this.z; var7 <= this.maxZ; ++var7) {
 					if(world.blockExists(var6, 0, var7)) {
-						for(int var8 = this.minY; var8 <= this.maxY; ++var8) {
+						for(int var8 = this.y; var8 <= this.maxY; ++var8) {
 							if(var8 >= 0 && var8 < 128) {
 								int var9 = world.getSavedLightValue(this.skyBlock, var6, var8, var7);
 								boolean var10 = false;
@@ -121,24 +121,24 @@ public class MetadataChunkBlock {
 	}
 
 	public boolean getLightUpdated(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-		if(minX >= this.minX && minY >= this.minY && minZ >= this.minZ && maxX <= this.maxX && maxY <= this.maxY && maxZ <= this.maxZ) {
+		if(minX >= this.x && minY >= this.y && minZ >= this.z && maxX <= this.maxX && maxY <= this.maxY && maxZ <= this.maxZ) {
 			return true;
 		} else {
 			byte var7 = 1;
-			if(minX >= this.minX - var7 && minY >= this.minY - var7 && minZ >= this.minZ - var7 && maxX <= this.maxX + var7 && maxY <= this.maxY + var7 && maxZ <= this.maxZ + var7) {
-				int var8 = this.maxX - this.minX;
-				int var9 = this.maxY - this.minY;
-				int var10 = this.maxZ - this.minZ;
-				if(minX > this.minX) {
-					minX = this.minX;
+			if(minX >= this.x - var7 && minY >= this.y - var7 && minZ >= this.z - var7 && maxX <= this.maxX + var7 && maxY <= this.maxY + var7 && maxZ <= this.maxZ + var7) {
+				int var8 = this.maxX - this.x;
+				int var9 = this.maxY - this.y;
+				int var10 = this.maxZ - this.z;
+				if(minX > this.x) {
+					minX = this.x;
 				}
 
-				if(minY > this.minY) {
-					minY = this.minY;
+				if(minY > this.y) {
+					minY = this.y;
 				}
 
-				if(minZ > this.minZ) {
-					minZ = this.minZ;
+				if(minZ > this.z) {
+					minZ = this.z;
 				}
 
 				if(maxX < this.maxX) {
@@ -159,9 +159,9 @@ public class MetadataChunkBlock {
 				int var14 = var8 * var9 * var10;
 				int var15 = var11 * var12 * var13;
 				if(var15 - var14 <= 2) {
-					this.minX = minX;
-					this.minY = minY;
-					this.minZ = minZ;
+					this.x = minX;
+					this.y = minY;
+					this.z = minZ;
 					this.maxX = maxX;
 					this.maxY = maxY;
 					this.maxZ = maxZ;

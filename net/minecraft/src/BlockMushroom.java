@@ -7,8 +7,8 @@ public class BlockMushroom extends BlockFlower {
 		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 2.0F, 0.5F + var3);
 	}
 
-	protected boolean canThisPlantGrowOnThisBlockID(int blockID) {
-		return Block.opaqueCubeLookup[blockID];
+	protected boolean canThisPlantGrowOnThisBlockID(int id) {
+		return Block.opaqueCubeLookup[id];
 	}
 
 	public boolean canBlockStay(World world, int x, int y, int z) {

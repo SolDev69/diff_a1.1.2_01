@@ -8,11 +8,11 @@ public class BlockLog extends Block {
 		this.blockIndexInTexture = 20;
 	}
 
-	public int quantityDropped(Random rand) {
+	public int quantityDropped(Random random) {
 		return 1;
 	}
 
-	public int idDropped(int metadata, Random rand) {
+	public int idDropped(int count, Random random) {
 		return Block.wood.blockID;
 	}
 

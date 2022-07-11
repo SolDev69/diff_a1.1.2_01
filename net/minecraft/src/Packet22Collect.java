@@ -8,6 +8,14 @@ public class Packet22Collect extends Packet {
 	public int collectedEntityId;
 	public int collectorEntityId;
 
+	public Packet22Collect() {
+	}
+
+	public Packet22Collect(int collectedEntityID, int collectorEntityID) {
+		this.collectedEntityId = collectedEntityID;
+		this.collectorEntityId = collectorEntityID;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.collectedEntityId = dataInputStream.readInt();
 		this.collectorEntityId = dataInputStream.readInt();

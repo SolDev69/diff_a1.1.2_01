@@ -9,6 +9,16 @@ public class Packet33RelEntityMoveLook extends Packet30Entity {
 		this.rotating = true;
 	}
 
+	public Packet33RelEntityMoveLook(int entityID, byte xPosition, byte yPosition, byte zPosition, byte yaw, byte pitch) {
+		super(entityID);
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+		this.yaw = yaw;
+		this.pitch = pitch;
+		this.rotating = true;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		super.readPacketData(dataInputStream);
 		this.xPosition = dataInputStream.readByte();

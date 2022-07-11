@@ -10,8 +10,8 @@ public class NBTTagDouble extends NBTBase {
 	public NBTTagDouble() {
 	}
 
-	public NBTTagDouble(double value) {
-		this.doubleValue = value;
+	public NBTTagDouble(double doubleValue) {
+		this.doubleValue = doubleValue;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

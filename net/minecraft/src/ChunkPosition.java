@@ -11,11 +11,11 @@ public class ChunkPosition {
 		this.z = z;
 	}
 
-	public boolean equals(Object chunkPosition) {
-		if(!(chunkPosition instanceof ChunkPosition)) {
+	public boolean equals(Object object) {
+		if(!(object instanceof ChunkPosition)) {
 			return false;
 		} else {
-			ChunkPosition var2 = (ChunkPosition)chunkPosition;
+			ChunkPosition var2 = (ChunkPosition)object;
 			return var2.x == this.x && var2.y == this.y && var2.z == this.z;
 		}
 	}

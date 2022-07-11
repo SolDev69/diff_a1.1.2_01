@@ -6,29 +6,29 @@ public class ItemPainting extends Item {
 		this.maxDamage = 64;
 	}
 
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World worldObj, int x, int y, int z, int side) {
-		if(side == 0) {
+	public boolean onItemUse(ItemStack stack, EntityPlayer entityPlayer, World world, int x, int y, int z, int var7) {
+		if(var7 == 0) {
 			return false;
-		} else if(side == 1) {
+		} else if(var7 == 1) {
 			return false;
 		} else {
 			byte var8 = 0;
-			if(side == 4) {
+			if(var7 == 4) {
 				var8 = 1;
 			}
 
-			if(side == 3) {
+			if(var7 == 3) {
 				var8 = 2;
 			}
 
-			if(side == 5) {
+			if(var7 == 5) {
 				var8 = 3;
 			}
 
-			EntityPainting var9 = new EntityPainting(worldObj, x, y, z, var8);
+			EntityPainting var9 = new EntityPainting(world, x, y, z, var8);
 			if(var9.onValidSurface()) {
-				worldObj.spawnEntityInWorld(var9);
-				--itemStack.stackSize;
+				world.spawnEntityInWorld(var9);
+				--stack.stackSize;
 			}
 
 			return true;

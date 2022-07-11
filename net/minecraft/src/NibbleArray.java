@@ -3,29 +3,29 @@ package net.minecraft.src;
 public class NibbleArray {
 	public final byte[] data;
 
-	public NibbleArray(int size) {
-		this.data = new byte[size >> 1];
+	public NibbleArray(int data) {
+		this.data = new byte[data >> 1];
 	}
 
 	public NibbleArray(byte[] data) {
 		this.data = data;
 	}
 
-	public int get(int x, int y, int z) {
-		int var4 = x << 11 | z << 7 | y;
+	public int get(int var1, int var2, int var3) {
+		int var4 = var1 << 11 | var3 << 7 | var2;
 		int var5 = var4 >> 1;
 		int var6 = var4 & 1;
 		return var6 == 0 ? this.data[var5] & 15 : this.data[var5] >> 4 & 15;
 	}
 
-	public void set(int x, int y, int z, int value) {
-		int var5 = x << 11 | z << 7 | y;
+	public void set(int var1, int var2, int var3, int var4) {
+		int var5 = var1 << 11 | var3 << 7 | var2;
 		int var6 = var5 >> 1;
 		int var7 = var5 & 1;
 		if(var7 == 0) {
-			this.data[var6] = (byte)(this.data[var6] & 240 | value & 15);
+			this.data[var6] = (byte)(this.data[var6] & 240 | var4 & 15);
 		} else {
-			this.data[var6] = (byte)(this.data[var6] & 15 | (value & 15) << 4);
+			this.data[var6] = (byte)(this.data[var6] & 15 | (var4 & 15) << 4);
 		}
 
 	}

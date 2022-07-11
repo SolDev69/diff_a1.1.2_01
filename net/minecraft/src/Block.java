@@ -138,9 +138,9 @@ public class Block {
 		}
 	}
 
-	protected Block(int id, int tex, Material material) {
+	protected Block(int id, int blockIndex, Material material) {
 		this(id, material);
-		this.blockIndexInTexture = tex;
+		this.blockIndexInTexture = blockIndex;
 	}
 
 	protected Block setStepSound(StepSound stepSound) {
@@ -167,10 +167,6 @@ public class Block {
 		return false;
 	}
 
-	public boolean renderAsNormalBlock() {
-		return true;
-	}
-
 	public int getRenderType() {
 		return 0;
 	}
@@ -184,8 +180,8 @@ public class Block {
 		return this;
 	}
 
-	protected void setTickOnLoad(boolean ticksOnLoad) {
-		tickOnLoad[this.blockID] = ticksOnLoad;
+	protected void setTickOnLoad(boolean doesTickOnLoad) {
+		tickOnLoad[this.blockID] = doesTickOnLoad;
 	}
 
 	public void setBlockBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -197,39 +193,23 @@ public class Block {
 		this.maxZ = (double)maxZ;
 	}
 
-	public float getBlockBrightness(IBlockAccess blockAccess, int x, int y, int z) {
-		return blockAccess.getBrightness(x, y, z);
-	}
-
 	public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
 		return side == 0 && this.minY > 0.0D ? true : (side == 1 && this.maxY < 1.0D ? true : (side == 2 && this.minZ > 0.0D ? true : (side == 3 && this.maxZ < 1.0D ? true : (side == 4 && this.minX > 0.0D ? true : (side == 5 && this.maxX < 1.0D ? true : !blockAccess.isBlockNormalCube(x, y, z))))));
-	}
-
-	public int getBlockTexture(IBlockAccess blockAccess, int x, int y, int z, int side) {
-		return this.getBlockTextureFromSideAndMetadata(side, blockAccess.getBlockMetadata(x, y, z));
-	}
-
-	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
-		return this.getBlockTextureFromSide(side);
 	}
 
 	public int getBlockTextureFromSide(int side) {
 		return this.blockIndexInTexture;
 	}
 
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World worldObj, int x, int y, int z) {
-		return AxisAlignedBB.getBoundingBoxFromPool((double)x + this.minX, (double)y + this.minY, (double)z + this.minZ, (double)x + this.maxX, (double)y + this.maxY, (double)z + this.maxZ);
-	}
-
-	public void getCollidingBoundingBoxes(World worldObj, int x, int y, int z, AxisAlignedBB aabb, ArrayList collidingBoundingBoxes) {
-		AxisAlignedBB var7 = this.getCollisionBoundingBoxFromPool(worldObj, x, y, z);
+	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AxisAlignedBB aabb, ArrayList arrayList) {
+		AxisAlignedBB var7 = this.getCollisionBoundingBoxFromPool(world, x, y, z);
 		if(var7 != null && aabb.intersectsWith(var7)) {
-			collidingBoundingBoxes.add(var7);
+			arrayList.add(var7);
 		}
 
 	}
 
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldObj, int x, int y, int z) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return AxisAlignedBB.getBoundingBoxFromPool((double)x + this.minX, (double)y + this.minY, (double)z + this.minZ, (double)x + this.maxX, (double)y + this.maxY, (double)z + this.maxZ);
 	}
 
@@ -237,7 +217,7 @@ public class Block {
 		return true;
 	}
 
-	public boolean canCollideCheck(int metadata, boolean var2) {
+	public boolean canCollideCheck(int var1, boolean var2) {
 		return this.isCollidable();
 	}
 
@@ -245,33 +225,30 @@ public class Block {
 		return true;
 	}
 
-	public void updateTick(World worldObj, int x, int y, int z, Random rand) {
+	public void updateTick(World world, int x, int y, int z, Random random) {
 	}
 
-	public void randomDisplayTick(World worldObj, int x, int y, int z, Random rand) {
+	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int flag) {
 	}
 
-	public void onBlockDestroyedByPlayer(World worldObj, int x, int y, int z, int metadata) {
-	}
-
-	public void onNeighborBlockChange(World worldObj, int x, int y, int z, int id) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, int flag) {
 	}
 
 	public int tickRate() {
 		return 10;
 	}
 
-	public void onBlockAdded(World worldObj, int x, int y, int z) {
+	public void onBlockAdded(World world, int x, int y, int z) {
 	}
 
-	public void onBlockRemoval(World worldObj, int x, int y, int z) {
+	public void onBlockRemoval(World world, int x, int y, int z) {
 	}
 
-	public int quantityDropped(Random rand) {
+	public int quantityDropped(Random random) {
 		return 1;
 	}
 
-	public int idDropped(int metadata, Random rand) {
+	public int idDropped(int count, Random random) {
 		return this.blockID;
 	}
 
@@ -279,25 +256,25 @@ public class Block {
 		return this.hardness < 0.0F ? 0.0F : (!entityPlayer.canHarvestBlock(this) ? 1.0F / this.hardness / 100.0F : entityPlayer.getCurrentPlayerStrVsBlock(this) / this.hardness / 30.0F);
 	}
 
-	public void dropBlockAsItem(World worldObj, int x, int y, int z, int metadata) {
-		this.dropBlockAsItemWithChance(worldObj, x, y, z, metadata, 1.0F);
+	public void dropBlockAsItem(World world, int var2, int var3, int var4, int var5) {
+		this.dropBlockAsItemWithChance(world, var2, var3, var4, var5, 1.0F);
 	}
 
-	public void dropBlockAsItemWithChance(World worldObj, int x, int y, int z, int metadata, float chance) {
-		if(!worldObj.multiplayerWorld) {
-			int var7 = this.quantityDropped(worldObj.rand);
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int var5, float var6) {
+		if(!world.multiplayerWorld) {
+			int var7 = this.quantityDropped(world.rand);
 
 			for(int var8 = 0; var8 < var7; ++var8) {
-				if(worldObj.rand.nextFloat() <= chance) {
-					int var9 = this.idDropped(metadata, worldObj.rand);
+				if(world.rand.nextFloat() <= var6) {
+					int var9 = this.idDropped(var5, world.rand);
 					if(var9 > 0) {
 						float var10 = 0.7F;
-						double var11 = (double)(worldObj.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
-						double var13 = (double)(worldObj.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
-						double var15 = (double)(worldObj.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
-						EntityItem var17 = new EntityItem(worldObj, (double)x + var11, (double)y + var13, (double)z + var15, new ItemStack(var9));
+						double var11 = (double)(world.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
+						double var13 = (double)(world.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
+						double var15 = (double)(world.rand.nextFloat() * var10) + (double)(1.0F - var10) * 0.5D;
+						EntityItem var17 = new EntityItem(world, (double)x + var11, (double)y + var13, (double)z + var15, new ItemStack(var9));
 						var17.delayBeforeCanPickup = 10;
-						worldObj.spawnEntityInWorld(var17);
+						world.spawnEntityInWorld(var17);
 					}
 				}
 			}
@@ -309,8 +286,8 @@ public class Block {
 		return this.resistance / 5.0F;
 	}
 
-	public MovingObjectPosition collisionRayTrace(World worldObj, int x, int y, int z, Vec3D vector1, Vec3D vector2) {
-		this.setBlockBoundsBasedOnState(worldObj, x, y, z);
+	public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3D vector1, Vec3D vector2) {
+		this.setBlockBoundsBasedOnState(world, x, y, z);
 		vector1 = vector1.addVector((double)(-x), (double)(-y), (double)(-z));
 		vector2 = vector2.addVector((double)(-x), (double)(-y), (double)(-z));
 		Vec3D var7 = vector1.getIntermediateWithXValue(vector2, this.minX);
@@ -412,11 +389,7 @@ public class Block {
 		return vector == null ? false : vector.xCoord >= this.minX && vector.xCoord <= this.maxX && vector.yCoord >= this.minY && vector.yCoord <= this.maxY;
 	}
 
-	public void onBlockDestroyedByExplosion(World worldObj, int x, int y, int z) {
-	}
-
-	public int getRenderBlockPass() {
-		return 0;
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z) {
 	}
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
@@ -424,30 +397,26 @@ public class Block {
 		return var5 == 0 || blocksList[var5].material.getIsLiquid();
 	}
 
-	public boolean blockActivated(World worldObj, int x, int y, int z, EntityPlayer entityPlayer) {
+	public boolean blockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer) {
 		return false;
 	}
 
-	public void onEntityWalking(World worldObj, int x, int y, int z, Entity entity) {
+	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 	}
 
-	public void onBlockPlaced(World worldObj, int x, int y, int z, int metadata) {
+	public void onBlockPlaced(World world, int x, int y, int z, int notifyFlag) {
 	}
 
-	public void onBlockClicked(World worldObj, int x, int y, int z, EntityPlayer entityPlayer) {
+	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer entityPlayer) {
 	}
 
-	public void velocityToAddToEntity(World worldObj, int x, int y, int z, Entity entity, Vec3D velocityVector) {
+	public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3D vector) {
 	}
 
 	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 	}
 
-	public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z) {
-		return 0xFFFFFF;
-	}
-
-	public boolean isPoweringTo(IBlockAccess blockAccess, int x, int y, int z, int metadata) {
+	public boolean isPoweringTo(IBlockAccess blockAccess, int x, int y, int z, int unused) {
 		return false;
 	}
 
@@ -458,15 +427,8 @@ public class Block {
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 	}
 
-	public boolean isIndirectlyPoweringTo(World worldObj, int x, int y, int z, int side) {
+	public boolean isIndirectlyPoweringTo(World world, int x, int y, int z, int flag) {
 		return false;
-	}
-
-	public void setBlockBoundsForItemRender() {
-	}
-
-	public void harvestBlock(World worldObj, int x, int y, int z, int metadata) {
-		this.dropBlockAsItem(worldObj, x, y, z, metadata);
 	}
 
 	public boolean canBlockStay(World world, int x, int y, int z) {

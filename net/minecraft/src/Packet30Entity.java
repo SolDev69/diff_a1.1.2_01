@@ -13,6 +13,13 @@ public class Packet30Entity extends Packet {
 	public byte pitch;
 	public boolean rotating = false;
 
+	public Packet30Entity() {
+	}
+
+	public Packet30Entity(int entityID) {
+		this.entityId = entityID;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.entityId = dataInputStream.readInt();
 	}

@@ -11,12 +11,12 @@ public class EntityCreeper extends EntityMob {
 		this.texture = "/mob/creeper.png";
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	protected void updateEntityActionState() {
@@ -52,8 +52,8 @@ public class EntityCreeper extends EntityMob {
 
 	}
 
-	protected void attackEntity(Entity entity, float distance) {
-		if(this.creeperState <= 0 && distance < 3.0F || this.creeperState > 0 && distance < 7.0F) {
+	protected void attackEntity(Entity entity, float damage) {
+		if(this.creeperState <= 0 && damage < 3.0F || this.creeperState > 0 && damage < 7.0F) {
 			if(this.timeSinceIgnited == 0) {
 				this.worldObj.playSoundAtEntity(this, "random.fuse", 1.0F, 0.5F);
 			}
@@ -68,10 +68,6 @@ public class EntityCreeper extends EntityMob {
 			this.hasAttacked = true;
 		}
 
-	}
-
-	public float getCreeperFlashTime(float var1) {
-		return ((float)this.lastActiveTime + (float)(this.timeSinceIgnited - this.lastActiveTime) * var1) / (float)(this.fuseDuration - 2);
 	}
 
 	protected int getDropItemId() {

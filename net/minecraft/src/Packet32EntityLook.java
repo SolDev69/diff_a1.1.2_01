@@ -9,6 +9,13 @@ public class Packet32EntityLook extends Packet30Entity {
 		this.rotating = true;
 	}
 
+	public Packet32EntityLook(int entityID, byte yaw, byte pitch) {
+		super(entityID);
+		this.yaw = yaw;
+		this.pitch = pitch;
+		this.rotating = true;
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		super.readPacketData(dataInputStream);
 		this.yaw = dataInputStream.readByte();

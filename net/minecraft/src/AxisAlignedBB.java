@@ -191,11 +191,38 @@ public class AxisAlignedBB {
 		return this;
 	}
 
-	public double getAverageEdgeLength() {
-		double var1 = this.maxX - this.minX;
-		double var3 = this.maxY - this.minY;
-		double var5 = this.maxZ - this.minZ;
-		return (var1 + var3 + var5) / 3.0D;
+	public AxisAlignedBB removeCoord(double x, double y, double z) {
+		double var7 = this.minX;
+		double var9 = this.minY;
+		double var11 = this.minZ;
+		double var13 = this.maxX;
+		double var15 = this.maxY;
+		double var17 = this.maxZ;
+		if(x < 0.0D) {
+			var7 -= x;
+		}
+
+		if(x > 0.0D) {
+			var13 -= x;
+		}
+
+		if(y < 0.0D) {
+			var9 -= y;
+		}
+
+		if(y > 0.0D) {
+			var15 -= y;
+		}
+
+		if(z < 0.0D) {
+			var11 -= z;
+		}
+
+		if(z > 0.0D) {
+			var17 -= z;
+		}
+
+		return getBoundingBoxFromPool(var7, var9, var11, var13, var15, var17);
 	}
 
 	public AxisAlignedBB copy() {

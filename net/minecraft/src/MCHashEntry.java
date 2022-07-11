@@ -6,11 +6,11 @@ class MCHashEntry {
 	MCHashEntry nextEntry;
 	final int slotHash;
 
-	MCHashEntry(int var1, int var2, Object var3, MCHashEntry var4) {
-		this.valueEntry = var3;
-		this.nextEntry = var4;
-		this.hashEntry = var2;
-		this.slotHash = var1;
+	MCHashEntry(int slotHash, int hashEntry, Object valueEntry, MCHashEntry nextEntry) {
+		this.valueEntry = valueEntry;
+		this.nextEntry = nextEntry;
+		this.hashEntry = hashEntry;
+		this.slotHash = slotHash;
 	}
 
 	public final int getHash() {
@@ -21,11 +21,11 @@ class MCHashEntry {
 		return this.valueEntry;
 	}
 
-	public final boolean equals(Object var1) {
-		if(!(var1 instanceof MCHashEntry)) {
+	public final boolean equals(Object object) {
+		if(!(object instanceof MCHashEntry)) {
 			return false;
 		} else {
-			MCHashEntry var2 = (MCHashEntry)var1;
+			MCHashEntry var2 = (MCHashEntry)object;
 			Integer var3 = Integer.valueOf(this.getHash());
 			Integer var4 = Integer.valueOf(var2.getHash());
 			if(var3 == var4 || var3 != null && var3.equals(var4)) {

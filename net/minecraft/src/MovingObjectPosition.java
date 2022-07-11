@@ -9,12 +9,12 @@ public class MovingObjectPosition {
 	public Vec3D hitVec;
 	public Entity entityHit;
 
-	public MovingObjectPosition(int x, int y, int z, int side, Vec3D vector) {
+	public MovingObjectPosition(int blockX, int blockY, int blockZ, int sideHit, Vec3D vector) {
 		this.typeOfHit = 0;
-		this.blockX = x;
-		this.blockY = y;
-		this.blockZ = z;
-		this.sideHit = side;
+		this.blockX = blockX;
+		this.blockY = blockY;
+		this.blockZ = blockZ;
+		this.sideHit = sideHit;
 		this.hitVec = Vec3D.createVector(vector.xCoord, vector.yCoord, vector.zCoord);
 	}
 

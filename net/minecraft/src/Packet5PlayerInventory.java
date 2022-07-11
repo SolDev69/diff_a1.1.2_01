@@ -11,12 +11,12 @@ public class Packet5PlayerInventory extends Packet {
 	public Packet5PlayerInventory() {
 	}
 
-	public Packet5PlayerInventory(int invType, ItemStack[] invContents) {
-		this.inventoryType = invType;
-		this.inventory = new ItemStack[invContents.length];
+	public Packet5PlayerInventory(int inventoryType, ItemStack[] stacks) {
+		this.inventoryType = inventoryType;
+		this.inventory = new ItemStack[stacks.length];
 
 		for(int var3 = 0; var3 < this.inventory.length; ++var3) {
-			this.inventory[var3] = invContents[var3] == null ? null : invContents[var3].copy();
+			this.inventory[var3] = stacks[var3] == null ? null : stacks[var3].copy();
 		}
 
 	}

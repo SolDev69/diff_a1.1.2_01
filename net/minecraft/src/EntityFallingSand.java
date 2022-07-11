@@ -8,8 +8,8 @@ public class EntityFallingSand extends Entity {
 		super(var1);
 	}
 
-	public EntityFallingSand(World worldObj, float x, float y, float z, int blockID) {
-		super(worldObj);
+	public EntityFallingSand(World world, float x, float y, float z, int blockID) {
+		super(world);
 		this.blockID = blockID;
 		this.preventEntitySpawning = true;
 		this.setSize(0.98F, 0.98F);
@@ -64,19 +64,11 @@ public class EntityFallingSand extends Entity {
 		}
 	}
 
-	protected void writeEntityToNBT(NBTTagCompound compoundTag) {
-		compoundTag.setByte("Tile", (byte)this.blockID);
+	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setByte("Tile", (byte)this.blockID);
 	}
 
-	protected void readEntityFromNBT(NBTTagCompound compoundTag) {
-		this.blockID = compoundTag.getByte("Tile") & 255;
-	}
-
-	public float getShadowSize() {
-		return 0.0F;
-	}
-
-	public World getWorld() {
-		return this.worldObj;
+	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		this.blockID = nbttagcompound.getByte("Tile") & 255;
 	}
 }

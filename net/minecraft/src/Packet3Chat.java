@@ -10,8 +10,8 @@ public class Packet3Chat extends Packet {
 	public Packet3Chat() {
 	}
 
-	public Packet3Chat(String msg) {
-		this.message = msg;
+	public Packet3Chat(String message) {
+		this.message = message;
 	}
 
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {

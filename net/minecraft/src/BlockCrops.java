@@ -11,46 +11,46 @@ public class BlockCrops extends BlockFlower {
 		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.25F, 0.5F + var3);
 	}
 
-	protected boolean canThisPlantGrowOnThisBlockID(int blockID) {
-		return blockID == Block.tilledField.blockID;
+	protected boolean canThisPlantGrowOnThisBlockID(int id) {
+		return id == Block.tilledField.blockID;
 	}
 
-	public void updateTick(World worldObj, int x, int y, int z, Random rand) {
-		super.updateTick(worldObj, x, y, z, rand);
-		if(worldObj.getBlockLightValue(x, y + 1, z) >= 9) {
-			int var6 = worldObj.getBlockMetadata(x, y, z);
+	public void updateTick(World world, int x, int y, int z, Random random) {
+		super.updateTick(world, x, y, z, random);
+		if(world.getBlockLightValue(x, y + 1, z) >= 9) {
+			int var6 = world.getBlockMetadata(x, y, z);
 			if(var6 < 7) {
-				float var7 = this.getGrowthRate(worldObj, x, y, z);
-				if(rand.nextInt((int)(100.0F / var7)) == 0) {
+				float var7 = this.getGrowthRate(world, x, y, z);
+				if(random.nextInt((int)(100.0F / var7)) == 0) {
 					++var6;
-					worldObj.setBlockMetadataWithNotify(x, y, z, var6);
+					world.setBlockMetadataWithNotify(x, y, z, var6);
 				}
 			}
 		}
 
 	}
 
-	private float getGrowthRate(World worldObj, int x, int y, int z) {
+	private float getGrowthRate(World world, int x, int y, int z) {
 		float var5 = 1.0F;
-		int var6 = worldObj.getBlockId(x, y, z - 1);
-		int var7 = worldObj.getBlockId(x, y, z + 1);
-		int var8 = worldObj.getBlockId(x - 1, y, z);
-		int var9 = worldObj.getBlockId(x + 1, y, z);
-		int var10 = worldObj.getBlockId(x - 1, y, z - 1);
-		int var11 = worldObj.getBlockId(x + 1, y, z - 1);
-		int var12 = worldObj.getBlockId(x + 1, y, z + 1);
-		int var13 = worldObj.getBlockId(x - 1, y, z + 1);
+		int var6 = world.getBlockId(x, y, z - 1);
+		int var7 = world.getBlockId(x, y, z + 1);
+		int var8 = world.getBlockId(x - 1, y, z);
+		int var9 = world.getBlockId(x + 1, y, z);
+		int var10 = world.getBlockId(x - 1, y, z - 1);
+		int var11 = world.getBlockId(x + 1, y, z - 1);
+		int var12 = world.getBlockId(x + 1, y, z + 1);
+		int var13 = world.getBlockId(x - 1, y, z + 1);
 		boolean var14 = var8 == this.blockID || var9 == this.blockID;
 		boolean var15 = var6 == this.blockID || var7 == this.blockID;
 		boolean var16 = var10 == this.blockID || var11 == this.blockID || var12 == this.blockID || var13 == this.blockID;
 
 		for(int var17 = x - 1; var17 <= x + 1; ++var17) {
 			for(int var18 = z - 1; var18 <= z + 1; ++var18) {
-				int var19 = worldObj.getBlockId(var17, y - 1, var18);
+				int var19 = world.getBlockId(var17, y - 1, var18);
 				float var20 = 0.0F;
 				if(var19 == Block.tilledField.blockID) {
 					var20 = 1.0F;
-					if(worldObj.getBlockMetadata(var17, y - 1, var18) > 0) {
+					if(world.getBlockMetadata(var17, y - 1, var18) > 0) {
 						var20 = 3.0F;
 					}
 				}
@@ -70,41 +70,33 @@ public class BlockCrops extends BlockFlower {
 		return var5;
 	}
 
-	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
-		if(metadata < 0) {
-			metadata = 7;
-		}
-
-		return this.blockIndexInTexture + metadata;
-	}
-
 	public int getRenderType() {
 		return 6;
 	}
 
-	public void onBlockDestroyedByPlayer(World worldObj, int x, int y, int z, int metadata) {
-		super.onBlockDestroyedByPlayer(worldObj, x, y, z, metadata);
+	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int flag) {
+		super.onBlockDestroyedByPlayer(world, x, y, z, flag);
 
 		for(int var6 = 0; var6 < 3; ++var6) {
-			if(worldObj.rand.nextInt(15) <= metadata) {
+			if(world.rand.nextInt(15) <= flag) {
 				float var7 = 0.7F;
-				float var8 = worldObj.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
-				float var9 = worldObj.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
-				float var10 = worldObj.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
-				EntityItem var11 = new EntityItem(worldObj, (double)((float)x + var8), (double)((float)y + var9), (double)((float)z + var10), new ItemStack(Item.seeds));
+				float var8 = world.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
+				float var9 = world.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
+				float var10 = world.rand.nextFloat() * var7 + (1.0F - var7) * 0.5F;
+				EntityItem var11 = new EntityItem(world, (double)((float)x + var8), (double)((float)y + var9), (double)((float)z + var10), new ItemStack(Item.seeds));
 				var11.delayBeforeCanPickup = 10;
-				worldObj.spawnEntityInWorld(var11);
+				world.spawnEntityInWorld(var11);
 			}
 		}
 
 	}
 
-	public int idDropped(int metadata, Random rand) {
-		System.out.println("Get resource: " + metadata);
-		return metadata == 7 ? Item.wheat.shiftedIndex : -1;
+	public int idDropped(int count, Random random) {
+		System.out.println("Get resource: " + count);
+		return count == 7 ? Item.wheat.shiftedIndex : -1;
 	}
 
-	public int quantityDropped(Random rand) {
+	public int quantityDropped(Random random) {
 		return 1;
 	}
 }

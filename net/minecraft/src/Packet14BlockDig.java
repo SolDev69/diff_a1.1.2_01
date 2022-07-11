@@ -11,17 +11,6 @@ public class Packet14BlockDig extends Packet {
 	public int face;
 	public int status;
 
-	public Packet14BlockDig() {
-	}
-
-	public Packet14BlockDig(int status, int x, int y, int z, int side) {
-		this.status = status;
-		this.xPosition = x;
-		this.yPosition = y;
-		this.zPosition = z;
-		this.face = side;
-	}
-
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.status = dataInputStream.read();
 		this.xPosition = dataInputStream.readInt();

@@ -10,8 +10,8 @@ public class NBTTagByte extends NBTBase {
 	public NBTTagByte() {
 	}
 
-	public NBTTagByte(byte value) {
-		this.byteValue = value;
+	public NBTTagByte(byte byteValue) {
+		this.byteValue = byteValue;
 	}
 
 	void writeTagContents(DataOutput dataOutput) throws IOException {

@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,16 +31,20 @@ public class NetworkManager {
 	private int sendQueueByteLength = 0;
 	private int chunkDataSendCounter = 0;
 
-	public NetworkManager(Socket socket, String name, NetHandler netHandler) throws IOException {
+	public NetworkManager(Socket socket, String threadName, NetHandler netHandler) throws IOException {
 		this.networkSocket = socket;
 		this.netHandler = netHandler;
 		socket.setTrafficClass(24);
 		this.socketInputStream = new DataInputStream(socket.getInputStream());
 		this.socketOutputStream = new DataOutputStream(socket.getOutputStream());
-		this.readThread = new NetworkReaderThread(this, name + " read thread");
-		this.writeThread = new NetworkWriterThread(this, name + " write thread");
+		this.readThread = new NetworkReaderThread(this, threadName + " read thread");
+		this.writeThread = new NetworkWriterThread(this, threadName + " write thread");
 		this.readThread.start();
 		this.writeThread.start();
+	}
+
+	public void setNetHandler(NetHandler netHandler) {
+		this.netHandler = netHandler;
 	}
 
 	public void addToSendQueue(Packet packet) {
@@ -118,10 +123,10 @@ public class NetworkManager {
 		this.networkShutdown("Internal exception: " + exception.toString());
 	}
 
-	public void networkShutdown(String reason) {
+	public void networkShutdown(String terminationReason) {
 		if(this.isRunning) {
 			this.isTerminating = true;
-			this.terminationReason = reason;
+			this.terminationReason = terminationReason;
 			(new NetworkMasterThread(this)).start();
 			this.isRunning = false;
 
@@ -169,27 +174,41 @@ public class NetworkManager {
 
 	}
 
-	static boolean isRunning(NetworkManager var0) {
-		return var0.isRunning;
+	public SocketAddress getRemoteAddress() {
+		return this.networkSocket.getRemoteSocketAddress();
 	}
 
-	static boolean isServerTerminating(NetworkManager var0) {
-		return var0.isServerTerminating;
+	public void serverShutdown() {
+		this.isServerTerminating = true;
+		this.readThread.interrupt();
+		(new ThreadMonitorConnection(this)).start();
 	}
 
-	static void readNetworkPacket(NetworkManager var0) {
-		var0.readPacket();
+	public int getNumChunkDataPackets() {
+		return this.chunkDataPackets.size();
 	}
 
-	static void sendNetworkPacket(NetworkManager var0) {
-		var0.sendPacket();
+	static boolean isRunning(NetworkManager networkManager) {
+		return networkManager.isRunning;
 	}
 
-	static Thread getReadThread(NetworkManager var0) {
-		return var0.readThread;
+	static boolean isServerTerminating(NetworkManager networkManager) {
+		return networkManager.isServerTerminating;
 	}
 
-	static Thread getWriteThread(NetworkManager var0) {
-		return var0.writeThread;
+	static void readNetworkPacket(NetworkManager networkManager) {
+		networkManager.readPacket();
+	}
+
+	static void sendNetworkPacket(NetworkManager networkManager) {
+		networkManager.sendPacket();
+	}
+
+	static Thread getReadThread(NetworkManager networkManager) {
+		return networkManager.readThread;
+	}
+
+	static Thread getWriteThread(NetworkManager networkManager) {
+		return networkManager.writeThread;
 	}
 }

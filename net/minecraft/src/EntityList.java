@@ -9,20 +9,20 @@ public class EntityList {
 	private static Map IDtoClassMapping = new HashMap();
 	private static Map classToIDMapping = new HashMap();
 
-	private static void addMapping(Class entityClass, String entityName, int entityID) {
-		stringToClassMapping.put(entityName, entityClass);
-		classToStringMapping.put(entityClass, entityName);
-		IDtoClassMapping.put(Integer.valueOf(entityID), entityClass);
-		classToIDMapping.put(entityClass, Integer.valueOf(entityID));
+	private static void addMapping(Class clazz, String entityName, int entityID) {
+		stringToClassMapping.put(entityName, clazz);
+		classToStringMapping.put(clazz, entityName);
+		IDtoClassMapping.put(Integer.valueOf(entityID), clazz);
+		classToIDMapping.put(clazz, Integer.valueOf(entityID));
 	}
 
-	public static Entity createEntityByName(String entityName, World worldObj) {
+	public static Entity createEntityByName(String entityName, World world) {
 		Entity var2 = null;
 
 		try {
 			Class var3 = (Class)stringToClassMapping.get(entityName);
 			if(var3 != null) {
-				var2 = (Entity)var3.getConstructor(new Class[]{World.class}).newInstance(new Object[]{worldObj});
+				var2 = (Entity)var3.getConstructor(new Class[]{World.class}).newInstance(new Object[]{world});
 			}
 		} catch (Exception var4) {
 			var4.printStackTrace();
@@ -31,41 +31,22 @@ public class EntityList {
 		return var2;
 	}
 
-	public static Entity createEntityFromNBT(NBTTagCompound nbtCompound, World worldObj) {
+	public static Entity createEntityFromNBT(NBTTagCompound nbttagcompound, World world) {
 		Entity var2 = null;
 
 		try {
-			Class var3 = (Class)stringToClassMapping.get(nbtCompound.getString("id"));
+			Class var3 = (Class)stringToClassMapping.get(nbttagcompound.getString("id"));
 			if(var3 != null) {
-				var2 = (Entity)var3.getConstructor(new Class[]{World.class}).newInstance(new Object[]{worldObj});
+				var2 = (Entity)var3.getConstructor(new Class[]{World.class}).newInstance(new Object[]{world});
 			}
 		} catch (Exception var4) {
 			var4.printStackTrace();
 		}
 
 		if(var2 != null) {
-			var2.readFromNBT(nbtCompound);
+			var2.readFromNBT(nbttagcompound);
 		} else {
-			System.out.println("Skipping Entity with id " + nbtCompound.getString("id"));
-		}
-
-		return var2;
-	}
-
-	public static Entity createEntityByID(int entityID, World worldObj) {
-		Entity var2 = null;
-
-		try {
-			Class var3 = (Class)IDtoClassMapping.get(Integer.valueOf(entityID));
-			if(var3 != null) {
-				var2 = (Entity)var3.getConstructor(new Class[]{World.class}).newInstance(new Object[]{worldObj});
-			}
-		} catch (Exception var4) {
-			var4.printStackTrace();
-		}
-
-		if(var2 == null) {
-			System.out.println("Skipping Entity with id " + entityID);
+			System.out.println("Skipping Entity with id " + nbttagcompound.getString("id"));
 		}
 
 		return var2;

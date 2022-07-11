@@ -15,6 +15,15 @@ public class Packet53BlockChange extends Packet {
 		this.isChunkDataPacket = true;
 	}
 
+	public Packet53BlockChange(int xPosition, int yPosition, int zPosition, World world) {
+		this.isChunkDataPacket = true;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.zPosition = zPosition;
+		this.type = world.getBlockId(xPosition, yPosition, zPosition);
+		this.metadata = world.getBlockMetadata(xPosition, yPosition, zPosition);
+	}
+
 	public void readPacketData(DataInputStream dataInputStream) throws IOException {
 		this.xPosition = dataInputStream.readInt();
 		this.yPosition = dataInputStream.read();

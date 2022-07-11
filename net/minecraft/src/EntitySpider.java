@@ -34,12 +34,12 @@ public class EntitySpider extends EntityMob {
 		return "mob.spiderdeath";
 	}
 
-	protected void attackEntity(Entity entity, float distance) {
+	protected void attackEntity(Entity entity, float damage) {
 		float var3 = this.getBrightness(1.0F);
 		if(var3 > 0.5F && this.rand.nextInt(100) == 0) {
 			this.entityToAttack = null;
 		} else {
-			if(distance > 2.0F && distance < 6.0F && this.rand.nextInt(10) == 0) {
+			if(damage > 2.0F && damage < 6.0F && this.rand.nextInt(10) == 0) {
 				if(this.onGround) {
 					double var4 = entity.posX - this.posX;
 					double var6 = entity.posZ - this.posZ;
@@ -49,18 +49,18 @@ public class EntitySpider extends EntityMob {
 					this.motionY = (double)0.4F;
 				}
 			} else {
-				super.attackEntity(entity, distance);
+				super.attackEntity(entity, damage);
 			}
 
 		}
 	}
 
-	public void writeEntityToNBT(NBTTagCompound compoundTag) {
-		super.writeEntityToNBT(compoundTag);
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
 	}
 
-	public void readEntityFromNBT(NBTTagCompound compoundTag) {
-		super.readEntityFromNBT(compoundTag);
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
 	}
 
 	protected int getDropItemId() {
